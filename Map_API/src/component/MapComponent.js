@@ -1,9 +1,15 @@
 // src/components/MapComponent.js
+import axios from 'axios';
 import L from 'leaflet';
 import 'leaflet-routing-machine';
+import 'leaflet-routing-machine/dist/leaflet-routing-machine.css';
 import 'leaflet/dist/leaflet.css';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { MapContainer, Marker, Popup, TileLayer, useMap } from 'react-leaflet';
+
+// Import custom marker icons
+import blueMarkerIcon from '../assets/images/blue-marker-icon.png';
+import redMarkerIcon from '../assets/images/red-marker-icon.png';
 
 // Fix Leaflet's default icon paths
 delete L.Icon.Default.prototype._getIconUrl;
@@ -13,125 +19,119 @@ L.Icon.Default.mergeOptions({
   shadowUrl: require('leaflet/dist/images/marker-shadow.png'),
 });
 
-const RoutingMachine = ({ currentLocation, destination }) => {
+// Define custom icons
+const startIcon = new L.Icon({
+  iconUrl: blueMarkerIcon,
+  iconSize: [32, 32],
+  iconAnchor: [16, 32],
+  popupAnchor: [0, -32],
+});
+
+const destinationIcon = new L.Icon({
+  iconUrl: redMarkerIcon,
+  iconSize: [32, 32],
+  iconAnchor: [16, 32],
+  popupAnchor: [0, -32],
+});
+
+// Component to set the map view to the current location
+const SetViewOnClick = ({ coords }) => {
   const map = useMap();
-
-  useEffect(() => {
-    if (!map) return;
-
-    // Remove existing routing control
-    map.eachLayer((layer) => {
-      if (layer instanceof L.Routing.Control) {
-        map.removeControl(layer);
-      }
-    });
-
-    const routingControl = L.Routing.control({
-      waypoints: [
-        L.latLng(currentLocation[0], currentLocation[1]),
-        L.latLng(destination[0], destination[1])
-      ],
-      routeWhileDragging: true,
-    }).addTo(map);
-
-    return () => {
-      map.removeControl(routingControl);
-    };
-  }, [map, currentLocation, destination]);
-
+  map.setView(coords, map.getZoom());
   return null;
 };
 
 const MapComponent = () => {
-  const [currentLocation, setCurrentLocation] = useState([7.8731, 80.7718]); // Centered in Sri Lanka
-  const [destination, setDestination] = useState([7.8731, 80.7718]); // Default destination
-  const [currentLat, setCurrentLat] = useState('');
-  const [currentLng, setCurrentLng] = useState('');
-  const [destLat, setDestLat] = useState('');
-  const [destLng, setDestLng] = useState('');
+  const [currentLocation, setCurrentLocation] = useState([51.505, -0.09]);
+  const [destination, setDestination] = useState([51.51, -0.12]);
+  const [searchQuery, setSearchQuery] = useState("");
+  const routingControlRef = useRef(null);
+  const mapRef = useRef();
 
+  // Get the user's current location and update it in real-time using the Geolocation API
   useEffect(() => {
     if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((position) => {
+      navigator.geolocation.watchPosition((position) => {
         const { latitude, longitude } = position.coords;
         setCurrentLocation([latitude, longitude]);
       });
     }
   }, []);
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    if (currentLat && currentLng) {
-      setCurrentLocation([parseFloat(currentLat), parseFloat(currentLng)]);
+  // Initialize routing control and update waypoints when current location or destination changes
+  useEffect(() => {
+    if (mapRef.current && !routingControlRef.current) {
+      routingControlRef.current = L.Routing.control({
+        waypoints: [
+          L.latLng(currentLocation[0], currentLocation[1]),
+          L.latLng(destination[0], destination[1])
+        ],
+        routeWhileDragging: true
+      }).addTo(mapRef.current);
+    } else if (routingControlRef.current) {
+      routingControlRef.current.setWaypoints([
+        L.latLng(currentLocation[0], currentLocation[1]),
+        L.latLng(destination[0], destination[1])
+      ]);
     }
-    setDestination([parseFloat(destLat), parseFloat(destLng)]);
+  }, [currentLocation, destination]);
+
+  // Search for a location using the Nominatim API and set the destination based on the search result
+  const handleSearch = async () => {
+    try {
+      const response = await axios.get('https://nominatim.openstreetmap.org/search', {
+        params: {
+          q: searchQuery,
+          format: 'json',
+          addressdetails: 1,
+          limit: 3
+        }
+      });
+      if (response.data && response.data.length > 0) {
+        const { lat, lon } = response.data[0];
+        const newDestination = [parseFloat(lat), parseFloat(lon)];
+        setDestination(newDestination);
+        if (mapRef.current) {
+          mapRef.current.setView(newDestination, 13); // Adjust zoom level if necessary
+        }
+      }
+    } catch (error) {
+      console.error("Error searching location:", error);
+    }
   };
 
   return (
     <div>
-      <form onSubmit={handleSubmit}>
-        <h2>Set Locations</h2>
-        <div>
-          <label>
-            Current Location Latitude:
-            <input
-              type="number"
-              step="any"
-              value={currentLat}
-              onChange={(e) => setCurrentLat(e.target.value)}
-            />
-          </label>
-          <label>
-            Current Location Longitude:
-            <input
-              type="number"
-              step="any"
-              value={currentLng}
-              onChange={(e) => setCurrentLng(e.target.value)}
-            />
-          </label>
-        </div>
-        <div>
-          <label>
-            Destination Latitude:
-            <input
-              type="number"
-              step="any"
-              value={destLat}
-              onChange={(e) => setDestLat(e.target.value)}
-              required
-            />
-          </label>
-          <label>
-            Destination Longitude:
-            <input
-              type="number"
-              step="any"
-              value={destLng}
-              onChange={(e) => setDestLng(e.target.value)}
-              required
-            />
-          </label>
-        </div>
-        <button type="submit">Update Map</button>
-      </form>
-
+      <div style={{ marginBottom: '10px' }}>
+        <input
+          type="text"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          placeholder="Search for a place..."
+        />
+        <button onClick={handleSearch}>Search</button>
+      </div>
       <MapContainer
         center={currentLocation}
-        zoom={8} // Adjust zoom level as needed
+        zoom={13}
         style={{ height: '100vh', width: '100%' }}
+        whenCreated={(mapInstance) => { mapRef.current = mapInstance; }}
       >
         <TileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         />
-        <Marker position={currentLocation}>
-          <Popup>Your current location.</Popup>
+        <Marker position={currentLocation} icon={startIcon}>
+          <Popup>
+            Your current location.
+          </Popup>
         </Marker>
-        <Marker position={destination}>
-          <Popup>Your destination.</Popup>
+        <Marker position={destination} icon={destinationIcon}>
+          <Popup>
+            Your destination.
+          </Popup>
         </Marker>
-        <RoutingMachine currentLocation={currentLocation} destination={destination} />
+        <SetViewOnClick coords={currentLocation} />
       </MapContainer>
     </div>
   );
