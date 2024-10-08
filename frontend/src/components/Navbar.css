@@ -1,0 +1,84 @@
+/* App.css or your CSS file */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+  
+header {
+    background-color: #52a397; /* Green background color */
+    padding: 20px 0;
+}
+  
+header nav {
+    max-width: 1200px;
+    height: 30px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+  
+.logo {
+    width: 50px;
+    height: 50px;
+    padding-right: 20px;
+}
+  
+.nav-links {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+  
+.nav-links ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-grow: 1;
+    justify-content: space-between;
+}
+  
+.nav-links li {
+    margin: 0 15px;
+}
+  
+.nav-links a {
+    text-decoration: none;
+    color: white;
+    font-size: 18px;
+    padding: 8px 16px;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+  
+.nav-links a:hover {
+    background-color: #7ee1d6; /* Darker green on hover */
+}
+  
+.icons {
+    display: flex;
+    align-items: center;
+}
+  
+.icon {
+    font-size: 20px; /* Adjust as needed */
+    margin-left: 15px; /* Adjust as needed */
+    color: white; /* Adjust as needed */
+}
+  
+.icon:hover {
+    color: #7ee1d6; /* Adjust as needed */
+}
+  
+@media (max-width: 768px) {
+    .nav-links ul {
+        flex-direction: column;
+        align-items: center;
+    }
+  
+    .nav-links li {
+        margin: 10px 0;
+    }
+}
