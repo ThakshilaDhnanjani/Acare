@@ -1,11 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const Hospital = require('../models/Hospital'); // Assuming this is your hospital schema
+const Hospital = require('../models/Hospital'); 
 
-// Get all ICU data (Hospital login data)
+
 router.get("/icus", async (req, res) => {
   try {
-    const icus = await Hospital.find({}, 'hospitalId username email beds'); // Fetch ICU name, location, contact, and available beds
+    const icus = await Hospital.find({}, 'hospitalId username email beds'); 
     const formattedIcus = icus.map(icu => ({
       name: icu.hospitalId,
       location: icu.username,
@@ -20,12 +20,10 @@ router.get("/icus", async (req, res) => {
   }
 });
 
-// Update ICU bed count when a bed is requested
 router.put("/request-bed/:id", async (req, res) => {
   const hospitalId = req.params.id;
 
   try {
-    // Find the hospital by its ID and check the available beds
     const hospital = await Hospital.findOne({ hospitalId });
 
     if (!hospital) {
@@ -36,7 +34,6 @@ router.put("/request-bed/:id", async (req, res) => {
       return res.status(400).json({ message: "No available beds" });
     }
 
-    // Decrease the bed count by 1
     hospital.beds -= 1;
     await hospital.save();
 

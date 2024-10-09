@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const Ambulance = require('../models/Ambulance'); // Assuming you have an Ambulance model
+const Ambulance = require('../models/Ambulance'); 
 
 // Add Ambulance
 router.post("/add", async (req, res) => {
