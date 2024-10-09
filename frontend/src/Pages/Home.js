@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './Home.css';
 import Navbar from '../components/Navbar';
@@ -37,9 +37,19 @@ function Home() {
     }
   };
 
-  useEffect(() => {
-    // Optional: Handle any side effects on bed count change
-  }, [bedCount]);
+  // In your home page component
+useEffect(() => {
+  const token = localStorage.getItem('authToken');
+  
+  if (token) {
+    // Use the token for API calls or authentication checks
+    console.log('Token:', token);
+  } else {
+    // Handle the case where there is no token (e.g., redirect to login page)
+    window.location.href = '/loginPage';
+  }
+}, []);
+
 
   return (
     <>

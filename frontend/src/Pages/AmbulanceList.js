@@ -1,32 +1,43 @@
-
-
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import './AmbulanceList.css'; 
-import Navbar from '../components/Navbar'
-
-const ambulances = [
-  { vehicleNumber: 'AMB-001' },
-  { vehicleNumber: 'AMB-002' },
-  { vehicleNumber: 'AMB-003'},
-  { vehicleNumber: 'AMB-004' },
-  { vehicleNumber: 'AMB-005' },
-  { vehicleNumber: 'AMB-006' }
-];
+import Navbar from '../components/Navbar';
 
 const AmbulanceList = () => {
+  const [ambulances, setAmbulances] = useState([]);
+
+  // Fetch ambulances from the backend
+  useEffect(() => {
+    fetch('http://localhost:5000/api/Ambulance') // Adjust the URL to match your backend
+      .then((response) => response.json())
+      .then((data) => {
+        setAmbulances(data);
+      })
+      .catch((error) => {
+        console.error('Error fetching ambulances:', error);
+      });
+  }, []);
+
+  const handleSendLocation = (ambulanceId) => {
+    // You can replace this with logic to actually send location
+    alert(`Send location for ambulance with ID: ${ambulanceId}`);
+  };
+
   return (
-   
-    <><div className='header'><Navbar /></div><div className="ambulance-list">
-
-          {ambulances.map((ambulance, index) => (
-              <div key={index} className="ambulance-box">
-                 
-                  <p>Vehicle Number: {ambulance.vehicleNumber}</p>
-
-                  <button id="submit-button">Send Location</button>
-              </div>
-          ))}
-      </div></>
+    <>
+      <div className='header'>
+        <Navbar />
+      </div>
+      <div className="ambulance-list">
+        {ambulances.map((ambulance, index) => (
+          <div key={ambulance._id} className="ambulance-box">
+            <p>Vehicle Number: {ambulance.Ambulance_no}</p>
+            <button id="submit-button" onClick={() => handleSendLocation(ambulance._id)}>
+              Send Location
+            </button>
+          </div>
+        ))}
+      </div>
+    </>
   );
 };
 

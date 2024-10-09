@@ -10,6 +10,32 @@ function Signin() {
   const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();
 
+/*const handleSubmit = async () => {
+  const response = await fetch('/loginPage', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ username, password }),
+  });
+
+  const data = await response.json();
+
+  if (response.ok) {
+    // Store token in localStorage
+    localStorage.setItem('authToken', data.token);
+
+    // Redirect to home page
+    window.location.href = '/';
+  } else {
+    console.error('Login failed');
+  }
+};
+
+
+
+  
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -29,6 +55,39 @@ function Signin() {
       setErrorMessage('An error occurred during signin');
     }
   };
+*/
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  try {
+    // Using axios to make the POST request
+    const response = await axios.post('http://localhost:5000/api/Hospital_login/signin', {
+      hospitalId,
+      password,
+    });
+
+    if (response.data.status === 'SUCCESS') {
+      // Store token in localStorage
+      localStorage.setItem('authToken', response.data.token);
+
+      // Redirect to home page after successful login and pass beds and hospitalId
+      navigate('/', { state: { beds: response.data.beds, hospitalId }});
+      console.log(response.data);
+    } else {
+      // Set error message if login failed
+      setErrorMessage(response.data.message);
+    }
+  } catch (error) {
+    // Set a generic error message in case of an error
+    setErrorMessage('An error occurred during signin');
+  }
+};
+
+
+
+
+
+
+
 
   return (
     <div className='wrapper'>
