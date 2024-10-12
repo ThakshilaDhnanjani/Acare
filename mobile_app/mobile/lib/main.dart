@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'login.dart'; // Import the LoginScreen class from the login.dart file
+import 'package:projectnew/home_screen.dart';
+import 'login.dart';
 
 void main() {
   runApp(const MyApp());
@@ -10,9 +11,14 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: HomeScreen(),
+      theme: ThemeData(
+        primaryColor: Colors.blue[900],
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
+        useMaterial3: true,
+      ),
+      home: const HomeScreen(),
     );
   }
 }
@@ -26,61 +32,97 @@ class HomeScreen extends StatelessWidget {
       body: Container(
         width: double.infinity,
         decoration: BoxDecoration(
-          color: Colors.lightBlue[50], // Light blue background color
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [Colors.blue[50]!, Colors.white],
+          ),
         ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Spacer(flex: 3),
-            // "A care" Logo Text
-            Text(
-              'A care',
-              style: TextStyle(
-                fontSize: 40,
-                fontWeight: FontWeight.bold,
-                color: Colors.blue[900], // Dark blue
-                fontFamily: 'Cursive', // Set your desired font here
-              ),
-            ),
-            const SizedBox(height: 10),
-            // Subtitle text
-            const Text(
-              'Track ambulances, enhance\ncritical care services',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 16,
-                color: Colors.black87,
-              ),
-            ),
-            const Spacer(flex: 2),
-            // "GET START" Button
-            ElevatedButton(
-              onPressed: () {
-                // Navigate to the LoginScreen
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => LoginScreen()),
-                );
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.blue[900], // Button color
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 50, vertical: 15),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
+        child: SafeArea(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const SizedBox(height: 60),
+              Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    // Logo
+                    Container(
+                      padding: const EdgeInsets.all(20),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        shape: BoxShape.circle,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.blue.withOpacity(0.2),
+                            spreadRadius: 5,
+                            blurRadius: 20,
+                          ),
+                        ],
+                      ),
+                      child: Icon(
+                        Icons.local_hospital,
+                        size: 60,
+                        color: Colors.blue[900],
+                      ),
+                    ),
+                    const SizedBox(height: 24),
+                    // "A care" Logo Text
+                    Text(
+                      'A care',
+                      style: TextStyle(
+                        fontSize: 40,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.blue[900],
+                        fontFamily: 'Poppins',
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    // Subtitle text
+                    Text(
+                      'Track ambulances, enhance\ncritical care services',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.blue[700],
+                        fontFamily: 'Poppins',
+                      ),
+                    ),
+                  ],
                 ),
               ),
-              child: const Text(
-                'GET START',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
+              // "GET STARTED" Button
+              Padding(
+                padding: const EdgeInsets.only(bottom: 50),
+                child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => Home_screen()),
+                    );
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.blue[900],
+                    foregroundColor: Colors.white,
+                    padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 15),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                    elevation: 5,
+                  ),
+                  child: const Text(
+                    'GET STARTED',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      letterSpacing: 1.2,
+                    ),
+                  ),
                 ),
               ),
-            ),
-            const Spacer(flex: 3),
-          ],
+            ],
+          ),
         ),
       ),
     );

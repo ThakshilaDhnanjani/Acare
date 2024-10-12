@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:projectnew/home_screen.dart';
 import 'dart:convert';
 import 'register.dart';
 import 'passwordReset.dart';
-import 'start.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -38,7 +38,7 @@ class _LoginScreenState extends State<LoginScreen> {
           // For now, we'll just navigate to the start screen
           Navigator.pushReplacement(
             context,
-            MaterialPageRoute(builder: (context) => StartScreen()),
+            MaterialPageRoute(builder: (context) => Home_screen()),
           );
         } else {
           ScaffoldMessenger.of(context).showSnackBar(
