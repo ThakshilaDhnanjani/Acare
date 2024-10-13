@@ -1,62 +1,64 @@
+// bed_availability.js
 const express = require('express');
-const router = express.Router();
-const Hospital = require('../models/Hospital_login');
 const jwt = require('jsonwebtoken');
-const secretKey = process.env.JWT_SECRET; 
+const Hospital = require('../models/Hospital_login'); // Adjust the path as necessary
+const router = express.Router();
+const secretKey = 'JWT_SECRET'; // 
 
-// Middleware to verify the token
+// Middleware to authenticate token
 const authenticateToken = (req, res, next) => {
-  const authHeader = req.headers['authorization'];
-  const token = authHeader && authHeader.split(' ')[1];
-  
-  if (!token) return res.status(401).json({ status: 'FAILED', message: 'No token provided' });
+    const token = req.headers['authorization']?.split(' ')[1]; 
+    if (!token) return res.status(401).json({ status: 'FAILED', message: 'Access token required!' });
+    console.log(token);
 
-  jwt.verify(token, secretKey, (err, user) => {
-    if (err) return res.status(403).json({ status: 'FAILED', message: 'Invalid token' });
-    req.user = user;
-    next();
-  });
+    jwt.verify(token, secretKey, (err, user) => {
+        if (err) return
+         res.status(403).json({ status: 'FAILED', message: 'Invalid token' });
+        req.user = user; // Attach user info to request
+        next();
+    });
 };
 
-// Update Bed Count Route based on hospitalId passed in the request body
-router.put('/update-beds', authenticateToken, async (req, res) => {
-  const { hospitalId, beds } = req.body; // Destructure to get hospitalId and beds from the request body
+router.put('/updatebeds', authenticateToken, async (req, res) => {
+  const { hospitalId, username, beds } = req.body;
 
-  // Validate inputs
-  if (!hospitalId || typeof beds !== 'number' || beds < 0) {
-    return res.status(400).json({
-      status: 'FAILED',
-      message: 'Invalid hospitalId or bed count!',
-    });
+  console.log('Received request to update beds:', { hospitalId, username, beds }); // Log the request data
+
+  if (typeof beds !== 'number' || beds < 0) {
+      return res.status(400).json({ status: 'FAILED', message: 'Invalid bed count!' });
   }
 
   try {
-    // Find the hospital by hospitalId and update bed count
-    const hospital = await Hospital.findById(hospitalId);
-    if (!hospital) {
-      return res.status(404).json({
-        status: 'FAILED',
-        message: 'Hospital not found!',
+      const hospital = await Hospital.findOne({
+          hospitalId: hospitalId,
+          username: username
       });
-    }
 
-    // Update the bed count
-    hospital.beds = beds;
-    await hospital.save();
+      console.log('Found hospital:', hospital); // Log the hospital object
 
-    // Respond with success and updated bed count
-    res.status(200).json({
-      status: 'SUCCESS',
-      message: 'Bed count updated successfully!',
-      availablebeds: hospital.beds, // Send updated bed count back
-    });
+      if (!hospital) {
+          return res.status(404).json({ status: 'FAILED', message: 'Hospital not found!' });
+      }
+
+      hospital.beds = beds; // Update the bed count
+      await hospital.save();
+
+      console.log('Updated bed count:', hospital.beds); // Log the updated bed count
+
+      res.status(200).json({
+          status: 'SUCCESS',
+          message: 'Bed count updated successfully!',
+          availablebeds: hospital.beds,
+      });
   } catch (err) {
-    res.status(500).json({
-      status: 'FAILED',
-      message: 'An error occurred while updating bed count!',
-      error: err.message,
-    });
+      console.error('Error updating beds:', err); // Log any error
+      res.status(500).json({
+          status: 'FAILED',
+          message: 'An error occurred while updating bed count!',
+          error: err.message,
+      });
   }
 });
+
 
 module.exports = router;

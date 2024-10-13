@@ -1,24 +1,39 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './List.css';
 import Navbar from '../components/Navbar';
-
-const icus = [
-  { name: 'ICU 1', location: 'Location 1', contact: '123-456-7890', availableBeds: 5 },
-  { name: 'ICU 2', location: 'Location 2', contact: '123-456-7891', availableBeds: 2 },
-  { name: 'ICU 3', location: 'Location 3', contact: '123-456-7892', availableBeds: 0 },
-];
+import axios from 'axios';
 
 export default function List() {
-  const [icuData, setIcuData] = useState(icus);
+  const [icuData, setIcuData] = useState([]);
 
-  const handleRequestBed = (index) => {
-    setIcuData(prevIcus => {
-      const updatedIcus = [...prevIcus];
-      if (updatedIcus[index].availableBeds > 0) {
-        updatedIcus[index].availableBeds -= 1;
+  useEffect(() => {
+    const fetchICUData = async () => {
+      try {
+        const response = await axios.get('http://localhost:5000/api/icu');
+        setIcuData(response.data);
+        console.log('ICU data:', response.data);
+      } catch (error) {
+        console.error('Error fetching ICU data:', error);
       }
-      return updatedIcus;
-    });
+    };
+
+    fetchICUData();
+  }, []);
+
+  const handleRequestBed = async (hospitalId) => {
+    try {
+      await axios.put(`http://localhost:5000/api/icu/request-bed/${hospitalId}`);
+      setIcuData(prevIcus => {
+        return prevIcus.map(icu => {
+          if (icu.name === hospitalId) {
+            return { ...icu, availableBeds: icu.availableBeds - 1 };
+          }
+          return icu;
+        });
+      });
+    } catch (error) {
+      console.error('Error requesting bed:', error);
+    }
   };
 
   return (
@@ -27,7 +42,7 @@ export default function List() {
       <div className="icu-list">
         {icuData.map((icu, index) => (
           <div key={index} className="icu-box">
-            <h2>{icu.name}</h2>
+            <h2>{icu.location}</h2>
             <p><strong>Location:</strong> {icu.location}</p>
             <p><strong>Contact:</strong> {icu.contact}</p>
             <table>
@@ -45,7 +60,7 @@ export default function List() {
                   <td>
                     <button 
                       className="request-bed-button"
-                      onClick={() => handleRequestBed(index)}
+                      onClick={() => handleRequestBed(icu.name)} // Pass hospitalId
                       disabled={icu.availableBeds === 0}
                     >
                       Request Bed

@@ -5,89 +5,44 @@ import './LoginPage.css';
 import { FaUser, FaLock } from "react-icons/fa";
 
 function Signin() {
-  const [hospitalId, setHospitalId] = useState('');
+  const [username, setUsername] = useState(''); // State to store the username
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
-  const navigate = useNavigate();
-
-/*const handleSubmit = async () => {
-  const response = await fetch('/loginPage', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ username, password }),
-  });
-
-  const data = await response.json();
-
-  if (response.ok) {
-    // Store token in localStorage
-    localStorage.setItem('authToken', data.token);
-
-    // Redirect to home page
-    window.location.href = '/';
-  } else {
-    console.error('Login failed');
-  }
-};
-
-
-
-  
+  const navigate = useNavigate(); // For navigation after successful login
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      // POST request to authenticate user
       const response = await axios.post('http://localhost:5000/api/Hospital_login/signin', {
-        hospitalId,
+        username, // Sending the username and password to the backend
         password,
       });
 
       if (response.data.status === 'SUCCESS') {
-        // Navigate to Home and pass beds count and hospitalId
-        navigate('/', { state: { beds: response.data.beds, hospitalId }});
+        // Store token in localStorage
+        localStorage.setItem('authToken', response.data.token);
+
+        // Use navigate to go to the home page and pass the data using `state`
+        navigate('/:id', {
+          state: {
+            beds: response.data.beds,         // Passing the bed count from response
+            username: response.data.username, // Passing the username from response
+            hospitalId: response.data.hospitalId, // Passing the hospitalId from response
+            token: response.data.token,       // Passing the token from response
+          }
+        });
         console.log(response.data);
+        alert('Login successful!');
       } else {
-        setErrorMessage(response.data.message);
+        // Display the error message from the response
+        alert('Login failed. Please try again.');
       }
     } catch (error) {
-      setErrorMessage('An error occurred during signin');
+      // Display a generic error message if any error occurs
+      alert('An error occurred during signin. Please try again.');
     }
   };
-*/
-const handleSubmit = async (e) => {
-  e.preventDefault();
-  try {
-    // Using axios to make the POST request
-    const response = await axios.post('http://localhost:5000/api/Hospital_login/signin', {
-      hospitalId,
-      password,
-    });
-
-    if (response.data.status === 'SUCCESS') {
-      // Store token in localStorage
-      localStorage.setItem('authToken', response.data.token);
-
-      // Redirect to home page after successful login and pass beds and hospitalId
-      navigate('/', { state: { beds: response.data.beds, hospitalId }});
-      console.log(response.data);
-    } else {
-      // Set error message if login failed
-      setErrorMessage(response.data.message);
-    }
-  } catch (error) {
-    // Set a generic error message in case of an error
-    setErrorMessage('An error occurred during signin');
-  }
-};
-
-
-
-
-
-
-
 
   return (
     <div className='wrapper'>
@@ -96,11 +51,11 @@ const handleSubmit = async (e) => {
         <div className='input-box'>
           <input 
             type='text' 
-            placeholder='Username' 
-            id='hospitalId' 
+            placeholder='Hospital Name' // Changed placeholder to Hospital Name
+            id='username' // Set input field id to username
             required 
-            value={hospitalId} 
-            onChange={(e) => setHospitalId(e.target.value)} 
+            value={username} // Bind username to input value
+            onChange={(e) => setUsername(e.target.value)} // Handle username input changes
           />
           <FaUser className='icon' />
         </div>
@@ -110,7 +65,7 @@ const handleSubmit = async (e) => {
             placeholder='Password' 
             required 
             value={password} 
-            onChange={(e) => setPassword(e.target.value)} 
+            onChange={(e) => setPassword(e.target.value)} // Handle password input changes
           />
           <FaLock className='icon' />
         </div>
@@ -123,7 +78,7 @@ const handleSubmit = async (e) => {
           <p>Don't have an account?<a href='./SignupPage'>Register</a></p>
         </div>
       </form>
-      {errorMessage && <p>{errorMessage}</p>}
+      {errorMessage && <p className='error-message'>{errorMessage}</p>} {/* Display error message */}
     </div>
   );
 }

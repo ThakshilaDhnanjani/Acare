@@ -4,52 +4,57 @@ import axios from 'axios';
 import './Home.css';
 import Navbar from '../components/Navbar';
 
-
-
 function Home() {
   const location = useLocation();
-  const [bedCount, setBedCount] = useState(location.state ? location.state.beds : 0); // Get beds from location state
+  const navigate = useNavigate();
+  
+  // Extract data passed via `state` in the `Signin` component
+  const { beds, username, hospitalId } = location.state || {};
+
+  const [bedCount, setBedCount] = useState(beds || 0);
   const [message, setMessage] = useState('');
 
+  // Function to increase the bed count
   const increaseBeds = () => setBedCount(bedCount + 1);
 
+  // Function to decrease the bed count
   const decreaseBeds = () => {
     if (bedCount > 0) {
       setBedCount(bedCount - 1);
     }
   };
 
+  // Function to update bed count in the backend
   const updateBeds = async () => {
     try {
-      const token = localStorage.getItem('token');
-
-      const response = await axios.put('http://localhost:5000/api/Bed_availability/update-beds', {hospitalId: location.state.hospitalId,
-        beds: bedCount, token: token
+      const token = localStorage.getItem('authToken');
+      
+      // Send a request to update the bed count with token
+      const response = await axios.put('http://localhost:5000/api/Bed_availability/updatebeds', {
+        hospitalId: hospitalId,
+        username: username,
+        beds: bedCount,
       }, {
         headers: {
-          Authorization: `Bearer ${token}`, // Ensure the syntax is correct
+          Authorization: `Bearer ${token}`, // Pass the token for authorization
         }
       });
 
-      setMessage(response.data.status === 'SUCCESS' ? 'Bed count updated successfully!' : 'Failed to update bed count!');
+      setMessage(response.data.status === 'SUCCESS' 
+        ? 'Bed count updated successfully!' 
+        : 'Failed to update bed count!');
     } catch (error) {
       setMessage('Error occurred while updating bed count.');
     }
   };
 
-  // In your home page component
-useEffect(() => {
-  const token = localStorage.getItem('authToken');
-  
-  if (token) {
-    // Use the token for API calls or authentication checks
-    console.log('Token:', token);
-  } else {
-    // Handle the case where there is no token (e.g., redirect to login page)
-    window.location.href = '/loginPage';
-  }
-}, []);
-
+  // Ensure the user is logged in (token is present in localStorage)
+  useEffect(() => {
+    const token = localStorage.getItem('authToken');
+    if (!token) {
+      navigate('/loginPage');
+    }
+  }, [navigate]);
 
   return (
     <>

@@ -1,85 +1,91 @@
+.wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('../Assets/bg.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
 
+form {
+  background-color: rgba(255, 255, 255, 0.8); 
+  padding: 40px;
+  border-radius: 15px; 
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 1); 
+  width: 400px;
+  transition: transform 0.2s; 
+}
 
+form:hover {
+  transform: translateY(-5px); 
+}
 
-  
-  .wrapper {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background-image: url('../Assets/back.png');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    width: 100%;
-  }
-  
-  form {
-    background-color: rgba(255, 255, 255, 0.8);
-    padding: 40px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    width: 350px;
-  }
-  
-  h1 {
-    margin-bottom: 20px;
-    font-size: 24px;
-    color: #333;
-    text-align: center;
-    margin-left: 20px;
-  }
-  
-  .input-box {
-    position: relative;
-    margin-bottom: 20px;
-  }
-  
-  .input-box input {
-    width: 100%;
-    padding: 10px;
-    padding-left: 20px; 
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 14px;
-    padding-right: 0%;
-  }
+h1 {
+  margin-bottom: 20px;
+  font-size: 28px; 
+  color: #253370; 
+  text-align: center;
+  text-transform: uppercase;
+}
 
-  
-  .icon {
-    position: absolute;
-    right: 20px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: #888;
-  }
-  
-  button {
-    width: 100%;
-    padding: 10px;
-    background-color: #253370;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-  }
-  
-  button:hover {
-    background-color: #367689;
-  }
-  
-  .register-link {
-    margin-top: 20px;
-    text-align: center;
-  }
-  
-  .register-link a {
-    color: #223273;
-    text-decoration: none;
-  }
-  
-  .register-link a:hover {
-    text-decoration: underline;
-  }
-  
+.input-box {
+  position: relative;
+  margin-bottom: 25px; 
+  margin-right: 35px;
+}
+
+.input-box input {
+  width: 100%;
+  padding: 12px;
+  padding-left: 20px; 
+  border: 1px solid #ccc;
+  border-radius: 25px;
+  font-size: 16px; 
+  transition: border-color 0.3s; 
+}
+
+.input-box input:focus {
+  border-color: #253370;
+  outline: none; 
+}
+
+.icon {
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #888;
+}
+
+button {
+  width: 100%;
+  padding: 12px; /* Increased padding */
+  background-color: #367689; /* Changed color for a modern look */
+  color: white;
+  border: none;
+  border-radius: 25px; /* More rounded button */
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s; /* Transition for hover effect */
+}
+
+button:hover {
+  background-color: #253370; /* Darker shade on hover */
+}
+
+.register-link {
+  margin-top: 25px; /* Increased spacing */
+  text-align: center;
+}
+
+.register-link a {
+  color: #223273;
+  text-decoration: none;
+  font-weight: bold; /* Bold for emphasis */
+}
+
+.register-link a:hover {
+  text-decoration: underline;
+}

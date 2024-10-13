@@ -7,7 +7,7 @@ const AmbulanceList = () => {
 
   // Fetch ambulances from the backend
   useEffect(() => {
-    fetch('http://localhost:5000/api/Ambulance') // Adjust the URL to match your backend
+    fetch('http://localhost:5000/api/Ambulance') 
       .then((response) => response.json())
       .then((data) => {
         setAmbulances(data);
@@ -18,7 +18,6 @@ const AmbulanceList = () => {
   }, []);
 
   const handleSendLocation = (ambulanceId) => {
-    // You can replace this with logic to actually send location
     alert(`Send location for ambulance with ID: ${ambulanceId}`);
   };
 
