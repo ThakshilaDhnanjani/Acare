@@ -90,7 +90,6 @@
 //     );
 //   }
 // }
-
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -102,6 +101,7 @@ class NotificationScreen extends StatefulWidget {
 
 class _NotificationScreenState extends State<NotificationScreen> {
   List<Map<String, dynamic>> notifications = [];
+  bool isLoading = false;
 
   @override
   void initState() {
@@ -110,6 +110,10 @@ class _NotificationScreenState extends State<NotificationScreen> {
   }
 
   Future<void> fetchNotifications() async {
+    setState(() {
+      isLoading = true;
+    });
+
     try {
       final response = await http.get(Uri.parse('http://localhost:5000/messages'));
       if (response.statusCode == 200) {
@@ -118,24 +122,32 @@ class _NotificationScreenState extends State<NotificationScreen> {
           notifications = data.map((msg) => {
             'id': msg['_id'],
             'message': msg['message'],
-            'accepted': msg['accepted'],
+            'timestamp': msg['createdAt'],  // Fixed field from 'timestamp' to 'createdAt'
+            'accepted': msg['accepted'] ?? false,
           }).toList();
         });
       } else {
-        print('Failed to load messages');
+        print('Failed to load messages: ${response.statusCode}');
       }
     } catch (error) {
       print('Error fetching messages: $error');
+    } finally {
+      setState(() {
+        isLoading = false;
+      });
     }
   }
 
   Future<void> acceptMessage(String id) async {
     try {
-      final response = await http.put(Uri.parse('http://localhost:5000/messages/$id/accept'));
+      final response = await http.put(
+        Uri.parse('http://localhost:5000/messages/$id/accept'),
+        headers: {'Content-Type': 'application/json'},
+      );
       if (response.statusCode == 200) {
         await fetchNotifications();
       } else {
-        print('Failed to accept message');
+        print('Failed to accept message: ${response.statusCode}');
       }
     } catch (error) {
       print('Error accepting message: $error');
@@ -147,26 +159,22 @@ class _NotificationScreenState extends State<NotificationScreen> {
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 250, 250, 250),
       appBar: AppBar(
-        title: Text('Notification', style: TextStyle(color: Colors.white)),
+        title: Text('Notifications', style: TextStyle(color: Colors.white)),
         centerTitle: true,
-        backgroundColor: const Color.fromARGB(255, 11, 3, 130),
+        backgroundColor: const Color.fromARGB(255, 2, 20, 157),
         elevation: 0,
       ),
-      body: Column(
-        children: [
-          Expanded(
-            child: notifications.isEmpty
-                ? Center(child: Text('No notifications', style: TextStyle(color: const Color.fromARGB(255, 0, 0, 0))))
-                : ListView.builder(
-                    itemCount: notifications.length,
-                    itemBuilder: (context, index) {
-                      final notification = notifications[index];
-                      return _buildNotificationCard(notification);
-                    },
-                  ),
-          ),
-        ],
-      ),
+      body: isLoading
+          ? Center(child: CircularProgressIndicator())
+          : notifications.isEmpty
+              ? Center(child: Text('No notifications', style: TextStyle(color: Colors.black)))
+              : ListView.builder(
+                  itemCount: notifications.length,
+                  itemBuilder: (context, index) {
+                    final notification = notifications[index];
+                    return _buildNotificationCard(notification);
+                  },
+                ),
     );
   }
 
@@ -191,6 +199,11 @@ class _NotificationScreenState extends State<NotificationScreen> {
             ),
             SizedBox(height: 8),
             Text(notification['message']),
+            SizedBox(height: 4),
+            Text(
+              DateTime.parse(notification['createdAt']).toLocal().toString(),
+              style: TextStyle(fontSize: 12, color: Colors.grey),
+            ),
             SizedBox(height: 8),
             if (!notification['accepted'])
               ElevatedButton(
@@ -202,13 +215,12 @@ class _NotificationScreenState extends State<NotificationScreen> {
                   ),
                 ),
                 onPressed: () => acceptMessage(notification['id']),
-              ),
-            if (notification['accepted'])
+              )
+            else
               Text('Accepted', style: TextStyle(color: Colors.green)),
           ],
         ),
       ),
     );
   }
-
 }

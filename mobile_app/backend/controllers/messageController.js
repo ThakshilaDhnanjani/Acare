@@ -1,7 +1,7 @@
-const { Message } = require('../models');
+const { Message } = require('../models/index');
 const { io } = require('../server');
 
-exports.createMessage = async (req, res) => {
+const createMessage = async (req, res) => {
   try {
     const newMessage = new Message(req.body);
     await newMessage.save();
@@ -11,7 +11,7 @@ exports.createMessage = async (req, res) => {
   }
 };
 
-exports.getMessages = async (req, res) => {
+const getMessages = async (req, res) => {
   try {
     const messages = await Message.find().sort({ createdAt: -1 });
     res.json(messages);
@@ -20,7 +20,7 @@ exports.getMessages = async (req, res) => {
   }
 };
 
-exports.acceptMessage = async (req, res) => {
+const acceptMessage = async (req, res) => {
   try {
     const message = await Message.findByIdAndUpdate(req.params.id, { accepted: true }, { new: true });
     res.json(message);
@@ -43,3 +43,19 @@ exports.sendEmergencyAlert = (req, res) => {
 
   res.status(200).json({ success: true });
 };
+
+
+app.post('/send-message', (req, res) => {
+  const { message } = req.body;
+  
+  if (!message) {
+    return res.status(400).json({ error: 'Message is required' });
+  }
+
+  io.emit('emergency-alert', {
+    message,
+    timestamp: new Date().toISOString()
+  });
+
+  res.status(200).json({ success: true });
+});
