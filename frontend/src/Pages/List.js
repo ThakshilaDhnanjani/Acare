@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './List.css';
 import Navbar from '../components/Navbar';
+import { useNavigate } from 'react-router-dom';//new
 
 const icus = [
   { name: 'ICU 1', location: 'Location 1', contact: '123-456-7890', availableBeds: 5 },
@@ -10,6 +11,7 @@ const icus = [
 
 export default function List() {
   const [icuData, setIcuData] = useState(icus);
+  const navigate = useNavigate();//new
 
   const handleRequestBed = (index) => {
     setIcuData(prevIcus => {
@@ -20,6 +22,13 @@ export default function List() {
       return updatedIcus;
     });
   };
+//new
+  const handleViewMore = (icu) => {
+    navigate('/Detail', { state: { ...icu } });
+  };
+//
+
+
 
   return (
     <>
@@ -27,7 +36,13 @@ export default function List() {
       <div className="icu-list">
         {icuData.map((icu, index) => (
           <div key={index} className="icu-box">
-            <h2>{icu.name}</h2>
+            <div className="icu-header">
+              <h2>{icu.name}</h2>
+              
+              <button className="view-more-button"  onClick={() => handleViewMore(icu)}
+              >View More</button>
+
+            </div>
             <p><strong>Location:</strong> {icu.location}</p>
             <p><strong>Contact:</strong> {icu.contact}</p>
             <table>
