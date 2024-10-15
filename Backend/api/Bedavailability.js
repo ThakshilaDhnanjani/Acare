@@ -5,6 +5,8 @@ const Hospital = require('../models/Hospital_login'); // Adjust the path as nece
 const router = express.Router();
 const secretKey = 'JWT_SECRET'; // 
 
+
+
 // Middleware to authenticate token
 const authenticateToken = (req, res, next) => {
     const token = req.headers['authorization']?.split(' ')[1]; 
@@ -20,9 +22,38 @@ const authenticateToken = (req, res, next) => {
 };
 
 router.put('/updatebeds', authenticateToken, async (req, res) => {
-  const { hospitalId, username, beds } = req.body;
+  const { username,beds } = req.body;
 
-  console.log('Received request to update beds:', { hospitalId, username, beds }); // Log the request data
+  /*
+router.route("/updatebeds").put(async (req, res) => {
+    let driverId = req.params.id;
+    const { userId, driver_name, hospitalId, contact_no } = req.body; //D structure
+
+    const updateDriver = {
+        //object
+        userId,
+        driver_name,
+        hospitalId,
+        contact_no,
+    };
+
+    const update = await Driver.findByIdAndUpdate(driverId, updateDriver)
+        .then(() => {
+            res.status(200).send({
+                status: "Driver Updated",
+            });
+        })
+        .catch((err) => {
+            console.log(err.message); //goes to terminal
+            res.status(500).send({
+                status: "Error with updating data",
+                error: err.message,
+            }); //goes to front end
+        });
+});
+*/ 
+
+  console.log('Received request to update beds:', { username,beds });
 
   if (typeof beds !== 'number' || beds < 0) {
       return res.status(400).json({ status: 'FAILED', message: 'Invalid bed count!' });
@@ -30,7 +61,6 @@ router.put('/updatebeds', authenticateToken, async (req, res) => {
 
   try {
       const hospital = await Hospital.findOne({
-          hospitalId: hospitalId,
           username: username
       });
 
