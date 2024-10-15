@@ -2,11 +2,10 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
-    username: String,
-    hospitalId: String,
+    username: { type: String, unique: true }, // Ensure hospital name is unique
+    hospitalId:{ type: String,unique: true},
     email: String,
     password: String,
-    /*confirmpassword: String,*/
     beds: Number
 });
 

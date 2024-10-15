@@ -156,33 +156,58 @@ import { useLocation } from 'react-router-dom';
 import axios from 'axios';
 import './Home.css';
 import Navbar from '../components/Navbar';
+
 import logo from '../Assets/logo.png';
+
 
 function Home() {
   const location = useLocation();
-  const [bedCount, setBedCount] = useState(location.state ? location.state.beds : 0);
+
+  const navigate = useNavigate();
+  
+  // Extract data passed via `state` in the `Signin` component
+  const { beds, username, hospitalId } = location.state || {};
+
+  const [bedCount, setBedCount] = useState(beds || 0);
+
   const [message, setMessage] = useState('');
   const [oxygenCapacity, setOxygenCapacity] = useState(0);
   const [theotory, setTheotory] = useState(0);
   const [ventilators, setVentilators] = useState(0);
   const [hospitalName, setHospitalName] = useState(''); // State for hospital name
 
-  // ... (keep existing functions)
- 
+  // Function to increase the bed count
+  const increaseBeds = () => setBedCount(bedCount + 1);
+  
+  const decreaseBeds = () => {
+    if (bedCount > 0) {
+      setBedCount(bedCount - 1);
+    }
+  };
 
-   const updateBeds = async () => {
-     try {
-       const token = localStorage.getItem('token');
-       const response = await axios.put('http://localhost:5000/api/Bed_availability/update-beds', 
-         {
-           hospitalId: location.state.hospitalId,
-           beds: bedCount, 
-           token: token
-         }, 
-         {
-           headers: { Authorization: `Bearer ${token}` }
-         }
-     );
+  // Function to update bed count in the backend
+  const updateBeds = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await axios.put('http://localhost:5000/api/Bedavailability/updatebeds', 
+        {
+          hospitalId: location.state.hospitalId,
+          beds: bedCount, 
+          token: token
+        }, 
+        {
+          headers: { Authorization: `Bearer ${token}` }
+        }
+      );
+
+      setMessage(response.data.status === 'SUCCESS' 
+        ? 'Bed count updated successfully!' 
+        : 'Failed to update bed count!');
+    } catch (error) {
+      setMessage('Error occurred while updating bed count.');
+    }
+  };
+
 
      setMessage(response.data.status === 'SUCCESS' ? 'Bed count updated successfully!' : 'Failed to update bed count!');
      } catch (error) {

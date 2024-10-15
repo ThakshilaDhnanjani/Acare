@@ -135,6 +135,7 @@ import { useNavigate } from 'react-router-dom';
 import './LoginPage.css';
 import { FaUser, FaLock } from "react-icons/fa";
 
+
 function LoginPage() {
   const [hospitalId, setHospitalId] = useState('');
   const [password, setPassword] = useState('');
@@ -145,12 +146,14 @@ function LoginPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      // POST request to authenticate user
       const response = await axios.post('http://localhost:5000/api/Hospital_login/signin', {
-        hospitalId,
+        username, // Sending the username and password to the backend
         password,
       });
 
       if (response.data.status === 'SUCCESS') {
+
         localStorage.setItem('authToken', response.data.token);
         if (rememberMe) {
           localStorage.setItem('rememberedHospitalId', hospitalId);
@@ -158,16 +161,24 @@ function LoginPage() {
           localStorage.removeItem('rememberedHospitalId');
         }
         navigate('/', { state: { beds: response.data.beds, hospitalId }});
+
       } else {
-        setErrorMessage(response.data.message);
+        // Display the error message from the response
+        alert('Login failed. Please try again.');
       }
     } catch (error) {
+
+      // Display a generic error message if any error occurs
+      alert('An error occurred during signin. Please try again.');
+
       setErrorMessage('An error occurred during sign in. Please try again.');
+
     }
   };
 
   return (
     <div className='wrapper'>
+
       <div className='login-container'>
         <h1>Welcome</h1>
         <form onSubmit={handleSubmit}>
@@ -209,6 +220,7 @@ function LoginPage() {
         </div>
         {errorMessage && <p className='error-message'>{errorMessage}</p>}
       </div>
+
     </div>
   );
 }
