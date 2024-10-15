@@ -156,6 +156,7 @@ import { useLocation } from 'react-router-dom';
 import axios from 'axios';
 import './Home.css';
 import Navbar from '../components/Navbar';
+import logo from '../Assets/logo.png';
 
 function Home() {
   const location = useLocation();
@@ -219,6 +220,7 @@ function Home() {
       <div className="home">
         <div className='sidebar'>
           <ul>
+            <img src={logo} alt='Logo' className='logo' />
             <li><a href="./AddAmbulance">Add Ambulance</a></li>
             <li><a href="/AddDrivers">Add Drivers</a></li>
           </ul>

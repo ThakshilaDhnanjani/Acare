@@ -31,13 +31,11 @@
 import React from 'react';
 import './Navbar.css';
 import { FaBell, FaCog, FaSignOutAlt } from 'react-icons/fa';
-import logo from '../Assets/logo.png';
 
 function Header() {
   return (
     <header>
       <nav>
-        <img src={logo} alt='Logo' className='logo' />
         <div className='nav-links'>
           <ul>
             <li><a href="/">Home</a></li>
@@ -49,7 +47,7 @@ function Header() {
         <div className='icons'>
           <a href="/notifications"><FaBell /></a>
           <a href="/settings"><FaCog /></a>
-          <a href="/logout"><FaSignOutAlt /></a>
+          <a href="/loginpage"><FaSignOutAlt /></a>
         </div>
       </nav>
     </header>

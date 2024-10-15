@@ -28,7 +28,6 @@ const AddAmbulance = () => {
   };
 
     return (
-
         <>
         <div className='header'>
             <Navbar />
