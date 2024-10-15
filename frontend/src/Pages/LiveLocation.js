@@ -4,10 +4,8 @@ import './LiveLocation.css';
 
 function LiveLocation(){
     return (
-        <div className='about'>
+        <div className='location'>
             <div className='header'><Navbar/></div>
-          <h1>Ambulance Location</h1>
-          <p></p>
         </div>
       );
     }

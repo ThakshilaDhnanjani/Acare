@@ -1,73 +1,87 @@
-.add-ambulance-page {
-    height: 100vh;
+
+  .add-ambulance-page {
     width: 100%;
     display: flex;
-    flex-direction: column;
-    align-items: center;
     justify-content: center;
-    background-color: #4eb19f; 
-}
-
-
-.add-ambulance-container {
-    height: 100%;
-    margin-left: 525px;
-    display: flex;
-    flex-direction: column;
     align-items: center;
-    background-color: #f0f0f0;
-}
-
-.header {
+    padding: 2rem;
+  }
+  
+  .add-ambulance-container {
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px var(--shadow-color);
+    padding: 2rem;
     width: 100%;
-    background-color: #fff; 
-}
-
-.add-ambulance-container {
-    max-width: 700px;
-    height: 400px;
-    width: 600px;
-    margin-top: 170px; 
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    background-color: #f9f9f9;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-.add-ambulance-container h2 {
+    max-width: 500px;
+    transition: all 0.3s ease;
+  }
+  
+  .add-ambulance-container:hover {
+    box-shadow: 0 6px 12px var(--shadow-color);
+  }
+  
+  h2 {
+    color: var(--primary-color);
     text-align: center;
-    margin-bottom: 20px;
-}
-
-.form-group {
-    margin-bottom: 15px;
-    
-}
-
-.form-group label {
+    margin-bottom: 1.5rem;
+    font-size: 1.8rem;
+  }
+  
+  .form-group {
+    margin-bottom: 1.5rem;
+  }
+  
+  .form-group label {
     display: block;
-    margin-bottom: 5px;
-}
-
-.form-group input {
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: var(--text-color);
+  }
+  
+  .form-group input {
     width: 100%;
-    padding: 8px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-}
-
-.submit-button {
+    padding: 0.75rem;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+  }
+  
+  .form-group input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
+  }
+  
+  .submit-button {
     width: 100%;
-    padding: 10px 0;
-    border-radius: 5px;
-    background-color: #007BFF;
-    color: #fff;
+    padding: 0.75rem;
+    background-color: var(--primary-color);
+    color: #ffffff;
     border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    font-weight: 500;
     cursor: pointer;
-    font-size: 16px;
-}
-
-.submit-button:hover {
-    background-color: #0056b3;
-}
+    transition: background-color 0.3s ease;
+  }
+  
+  .submit-button:hover {
+    background-color: #3a7bc8;
+  }
+  
+  .submit-button:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.4);
+  }
+  
+  @media (max-width: 768px) {
+    .add-ambulance-container {
+      padding: 1.5rem;
+    }
+  
+    h2 {
+      font-size: 1.5rem;
+    }
+  }
