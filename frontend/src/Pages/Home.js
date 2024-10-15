@@ -163,16 +163,12 @@ function Home() {
   const [bedCount, setBedCount] = useState(location.state ? location.state.beds : 0);
   const [message, setMessage] = useState('');
   const [oxygenCapacity, setOxygenCapacity] = useState(0);
+  const [theotory, setTheotory] = useState(0);
   const [ventilators, setVentilators] = useState(0);
+  const [hospitalName, setHospitalName] = useState(''); // State for hospital name
 
   // ... (keep existing functions)
-  const increaseBeds = () => setBedCount(bedCount + 1);
-  
-  const decreaseBeds = () => {
-    if (bedCount > 0) {
-      setBedCount(bedCount - 1);
-     }
-   };
+ 
 
    const updateBeds = async () => {
      try {
@@ -198,7 +194,11 @@ function Home() {
      // Logic to handle oxygen capacity submission
      alert(`Oxygen capacity updated: ${oxygenCapacity}`);
    };
-
+     
+   const handleTheotorySubmit = () => {
+    // Logic to handle oxygen capacity submission
+    alert(`Oxygen capacity updated: ${theotory}`);
+  };
    const handleVentilatorsSubmit = () => {
      // Logic to handle ventilator submission
      alert(`Ventilators updated: ${ventilators}`);
@@ -239,15 +239,16 @@ function Home() {
               <button onClick={handleOxygenSubmit}>Update</button>
             </div>
             <div className='box'>
-              <h2>Available ICU Beds</h2>
+              <h2>Available theotory</h2>
               <input
                 type="number"
-                value={oxygenCapacity}
-                onChange={(e) => setOxygenCapacity(e.target.value)}
-                placeholder="Enter ICU Beds"
+                value={theotory}
+                onChange={(e) => setTheotory(e.target.value)}
+                placeholder="Enter Oxygen Capacity"
               />
-              <button onClick={handleOxygenSubmit}>Update</button>
+              <button onClick={handleTheotorySubmit}>Update</button>
             </div>
+
             <div className='box'>
               <h2>Available Ventilators</h2>
               <input
@@ -261,11 +262,25 @@ function Home() {
           </div>
           
           <div className='available-beds'>
-            <h2>Available Beds</h2>
+            <h2>Available Beds </h2>
             <div className="bed-controls">
-              <button onClick={decreaseBeds} className="bed-button">-</button>
-              <span>{bedCount}</span>
-              <button onClick={increaseBeds} className="bed-button">+</button>
+              {/* Hospital name input */}
+              <input
+                type="text"
+                value={hospitalName}
+                onChange={(e) => setHospitalName(e.target.value)}
+                placeholder="Enter Hospital Name"
+                className="hospital-input"
+              />
+              
+              {/* Bed count input */}
+              <input
+                type="number"
+                value={bedCount}
+                onChange={(e) => setBedCount(e.target.value)}
+                placeholder="Enter Bed Count"
+                className="bed-input"
+              />
             </div>
             <button id="submit-button" onClick={updateBeds}>Update</button>
             {message && <p>{message}</p>}
