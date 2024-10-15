@@ -11,6 +11,7 @@ import SignupPage from './Pages/SignupPage';
 import LiveLocation from './Pages/LiveLocation';
 import AddAmbulance from './Pages/AddAmbulance';
 import AddDrivers from './Pages/AddDrivers';
+import Detail from './Pages/Detail';
 
 
 
@@ -29,7 +30,7 @@ function App() {
          <Route path='/location' element={<LiveLocation />} />
          <Route path='/AddAmbulance' element={<AddAmbulance />} />
          <Route path='/AddDrivers' element={<AddDrivers />} />
-
+         <Route path="/Detail" element={<Detail />} />
          
       </Routes>
     </div>

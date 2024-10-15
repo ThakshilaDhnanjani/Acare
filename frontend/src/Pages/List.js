@@ -2,9 +2,13 @@ import React, { useEffect, useState } from 'react';
 import './List.css';
 import Navbar from '../components/Navbar';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+
+
 
 export default function List() {
   const [icuData, setIcuData] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchICUData = async () => {
@@ -35,6 +39,13 @@ export default function List() {
       console.error('Error requesting bed:', error);
     }
   };
+//new
+  const handleViewMore = (icu) => {
+    navigate('/Detail', { state: { ...icu } });
+  };
+//
+
+
 
   return (
     <>
@@ -43,6 +54,13 @@ export default function List() {
         {icuData.map((icu, index) => (
           <div key={index} className="icu-box">
             <h2>{icu.location}</h2>
+            <div className="icu-header">
+              <h2>{icu.name}</h2>
+              
+              <button className="view-more-button"  onClick={() => handleViewMore(icu)}
+              >View More</button>
+
+            </div>
             <p><strong>Location:</strong> {icu.location}</p>
             <p><strong>Contact:</strong> {icu.contact}</p>
             <table>
