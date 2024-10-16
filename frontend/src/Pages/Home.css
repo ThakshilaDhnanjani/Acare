@@ -8,37 +8,53 @@
   --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-body {
-  font-family: 'Arial', sans-serif;
-  background-color: var(--background-color);
-  margin: 0;
-  padding: 0;
-}
-
-.header {
-  background-color: var(--primary-color);
-  padding: 15px 0;
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 1000;
-  box-shadow: var(--box-shadow);
-  height: 30px;
-}
 
 .home {
   display: flex;
   min-height: calc(100vh - 60px);
-  margin-top: 60px; /* Adjust based on your header height */
 }
 
 .sidebar {
   width: 300px;
+  height:500px;
+  margin-top: 40px;
+  margin-left: 20px;
+  border-radius: 20px;
   background-color: var(--secondary-color);
   padding: 30px;
   box-shadow: var(--box-shadow);
   transition: all 0.3s ease;
+}
+
+/* .sidebar {
+  flex: 1;
+  background: linear-gradient(145deg, var(--card-background), var(--background-color));
+  border-radius: 20px;
+  padding: 40px;
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.sidebar::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
+  transform: rotate(45deg);
+  transition: 0.5s;
+} */
+
+
+
+.logo {
+  width: 250px;
+  height: 250px;
+  transition: transform 0.3s ease;
 }
 
 .sidebar ul {
@@ -68,7 +84,7 @@ body {
 
 .main-content {
   flex-grow: 1;
-  padding: 50px;
+  padding: 40px;
 }
 
 .boxes-container {
@@ -86,6 +102,7 @@ body {
   transition: transform 0.3s ease;
 }
 
+
 .box:hover {
   transform: translateY(-5px);
 }
@@ -98,11 +115,12 @@ body {
 
 .box input {
   width: 100%;
-  padding: 12px;
+  padding: 10px 1px 10px 10px;
   border: 2px solid #ddd;
   border-radius: 8px;
   margin-bottom: 20px;
-  font-size: 16px;
+  margin-left: -5px;
+  font-size: 1rem;
   transition: border-color 0.3s ease;
 }
 
@@ -110,6 +128,7 @@ body {
   border-color: var(--accent-color);
   outline: none;
 }
+
 
 .box button {
   background-color: var(--accent-color);
@@ -124,7 +143,7 @@ body {
 }
 
 .box button:hover {
-  background-color: #2980b9;
+  background-color: #030360;
   transform: scale(1.05);
 }
 
@@ -133,8 +152,16 @@ body {
   border-radius: 15px;
   padding: 30px;
   box-shadow: var(--box-shadow);
-  max-width: 500px;
+  max-width: 700px;
   margin: 0 auto;
+}
+
+.available-beds input {
+  height: 40px;
+  width: 80%;
+  padding: 10px;
+  margin-right: 10px;
+  border-radius: 10px;
 }
 
 .available-beds h2 {

@@ -1,4 +1,4 @@
-import React from 'react';
+
 import './App.css';
 import { BrowserRouter as  Router, Routes, Route  } from 'react-router-dom';
 import Navbar from './components/Navbar';
@@ -21,7 +21,7 @@ function App() {
         <div className="App">
       
       <Routes>
-         <Route path='/:id' element={<Home />} />
+         <Route path='/home' element={<Home />} />
          <Route path="/about" element={<About />} />
          <Route path="/ICU List" element={<List />} />
          <Route path="/Ambulance" element={<AmbulanceList />} />
@@ -37,6 +37,8 @@ function App() {
     </Router>
     
   );
+  
 }
+
 
 export default App;
