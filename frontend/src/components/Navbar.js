@@ -38,7 +38,7 @@ function Header() {
       <nav>
         <div className='nav-links'>
           <ul>
-            <li><a href="/">Home</a></li>
+            <li><a href="/home">Home</a></li>
             <li><a href="/ICU List">ICU List</a></li>
             <li><a href="/ambulance">Ambulance</a></li>
             <li><a href="/location">Live Location</a></li>

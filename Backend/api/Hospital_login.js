@@ -98,7 +98,8 @@ router.post('/signin', async (req, res) => {
                   status: "SUCCESS",
                   message: "Signin successful!",
                   token,
-                  beds: user.beds
+                  beds: user.beds,
+                  username: user.username
               });
           });
       } else {

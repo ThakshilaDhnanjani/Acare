@@ -1,189 +1,25 @@
-// import React, { useState, useEffect } from 'react';
-// import { useLocation } from 'react-router-dom';
-// import axios from 'axios';
-// import './Home.css';
-// import Navbar from '../components/Navbar';
-
-
-
-// function Home() {
-//   const location = useLocation();
-//   const [bedCount, setBedCount] = useState(location.state ? location.state.beds : 0);
-//   const [message, setMessage] = useState('');
-//   const [oxygenCapacity, setOxygenCapacity] = useState(0); // State for oxygen capacity
-//   const [ventilators, setVentilators] = useState(0); // State for ventilators
-
-//   const increaseBeds = () => setBedCount(bedCount + 1);
-  
-  // const decreaseBeds = () => {
-  //   if (bedCount > 0) {
-  //     setBedCount(bedCount - 1);
-  //   }
-  // };
-
-  // const updateBeds = async () => {
-  //   try {
-  //     const token = localStorage.getItem('token');
-  //     const response = await axios.put('http://localhost:5000/api/Bed_availability/update-beds', 
-  //       {
-  //         hospitalId: location.state.hospitalId,
-  //         beds: bedCount, 
-  //         token: token
-  //       }, 
-  //       {
-  //         headers: { Authorization: `Bearer ${token}` }
-  //       }
-  //     );
-
-  //     setMessage(response.data.status === 'SUCCESS' ? 'Bed count updated successfully!' : 'Failed to update bed count!');
-  //   } catch (error) {
-  //     setMessage('Error occurred while updating bed count.');
-  //   }
-  // };
-
-  // const handleOxygenSubmit = () => {
-  //   // Logic to handle oxygen capacity submission
-  //   alert(`Oxygen capacity updated: ${oxygenCapacity}`);
-  // };
-
-  // const handleVentilatorsSubmit = () => {
-  //   // Logic to handle ventilator submission
-  //   alert(`Ventilators updated: ${ventilators}`);
-  // };
-
-  // useEffect(() => {
-  //   const token = localStorage.getItem('authToken');
-  //   if (!token) {
-  //     window.location.href = '/login';
-  //   }
-  // }, []);
-
-//   return (
-//     <>
-//       <div className='header'>
-//         <Navbar />
-//       </div>
-//       <div className="home">
-//         <div className='sidebar'>
-//           <ul>
-//             <li><a href="./AddAmbulance">Add Ambulance</a></li>
-//             <li><a href="/AddDrivers">Add Drivers</a></li>
-//           </ul>
-//         </div>
-        
-//         <div>
-//           <div className='boxes-container'>
-//             <div className='box'>
-//               <div className='text'>
-//             <h2>Available Oxygen capacity</h2>
-//             </div>
-//             <div className='enter'>
-//               <input
-//                 type="number"
-//                 value={oxygenCapacity}
-//                 onChange={(e) => setOxygenCapacity(e.target.value)}
-//                 placeholder="Enter Oxygen Capacity"
-//               />
-//               </div>
-//               <div>
-//               <button id="ok-button"onClick={handleOxygenSubmit}>Submit</button>
-//               </div>
-//             </div>
-//             <div className='box'>
-//               <div className='text'>
-//             <h2>Available Oxygen capacity</h2>
-//             </div>
-//             <div className='enter'>
-//               <input
-//                 type="number"
-//                 value={oxygenCapacity}
-//                 onChange={(e) => setOxygenCapacity(e.target.value)}
-//                 placeholder="Enter Oxygen Capacity"
-//               />
-//               </div>
-//               <div>
-//               <button id="ok-button"onClick={handleOxygenSubmit}>Submit</button>
-//               </div>
-//             </div>
-//             <div className='box'>
-//               <div className='text'>
-//             <h2>Available ventilators</h2>
-//             </div>
-//             <div className='enter'>
-//               <input
-//                 type="number"
-//                 value={oxygenCapacity}
-//                 onChange={(e) => setOxygenCapacity(e.target.value)}
-//                 placeholder="Enter Oxygen Capacity"
-//               />
-//               </div>
-//               <div>
-//               <button id="ok-button"onClick={handleOxygenSubmit}>Submit</button>
-//               </div>
-//             </div>
-            
-//           </div>
-          
-          
-//           <div className='available-beds'>
-          
-//             <h2>Available beds </h2>
-//             <div className="bed-controls">
-//               <button onClick={decreaseBeds} className="bed-button">-</button>
-//               <span>{bedCount}</span>
-//               <button onClick={increaseBeds} className="bed-button">+</button>
-//             </div>
-//             <button id="submit-button" onClick={updateBeds}>Update</button>
-//             {message && <p>{message}</p>}
-//           </div>
-
-
-          
-//         </div>
-
-        
-//       </div>
-      
-//     </>
-//   );
-// }
-
-// export default Home;
-
-
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import axios from 'axios';
 import './Home.css';
 import Navbar from '../components/Navbar';
-
 import logo from '../Assets/logo.png';
-
 
 function Home() {
   const location = useLocation();
-
-  const navigate = useNavigate();
   
-  // Extract data passed via `state` in the `Signin` component
-  const { beds, username, hospitalId } = location.state || {};
+  // Extract data passed via `state` from the previous page
+  const { beds = 0, username = '' } = location.state || {}; // Default values
 
-  const [bedCount, setBedCount] = useState(beds || 0);
-
+  // Initialize state variables with default values
+  const [bed, setBed] = useState(beds);
   const [message, setMessage] = useState('');
   const [oxygenCapacity, setOxygenCapacity] = useState(0);
-  const [theotory, setTheotory] = useState(0);
   const [ventilators, setVentilators] = useState(0);
-  const [hospitalName, setHospitalName] = useState(''); // State for hospital name
+  const [thetory, setThetory] = useState(0);
 
-  // Function to increase the bed count
-  const increaseBeds = () => setBedCount(bedCount + 1);
-  
-  const decreaseBeds = () => {
-    if (bedCount > 0) {
-      setBedCount(bedCount - 1);
-    }
-  };
+  // Auto-fill hospital name from location.state
+  const [hospitalName, setHospitalName] = useState(username);
 
   // Function to update bed count in the backend
   const updateBeds = async () => {
@@ -191,9 +27,8 @@ function Home() {
       const token = localStorage.getItem('token');
       const response = await axios.put('http://localhost:5000/api/Bedavailability/updatebeds', 
         {
-          hospitalId: location.state.hospitalId,
-          beds: bedCount, 
-          token: token
+          username: username, // Send hospitalId to identify the hospital
+          beds: bed // Send the updated bed count
         }, 
         {
           headers: { Authorization: `Bearer ${token}` }
@@ -208,34 +43,26 @@ function Home() {
     }
   };
 
-
-     setMessage(response.data.status === 'SUCCESS' ? 'Bed count updated successfully!' : 'Failed to update bed count!');
-     } catch (error) {
-       setMessage('Error occurred while updating bed count.');
-     }
-   };
-
-   const handleOxygenSubmit = () => {
-     // Logic to handle oxygen capacity submission
-     alert(`Oxygen capacity updated: ${oxygenCapacity}`);
-   };
-     
-   const handleTheotorySubmit = () => {
-    // Logic to handle oxygen capacity submission
-    alert(`Oxygen capacity updated: ${theotory}`);
+  // Example functions for oxygen capacity and ventilators (similar structure)
+  const handleOxygenSubmit = () => {
+    alert(`Oxygen capacity updated: ${oxygenCapacity}`);
   };
-   const handleVentilatorsSubmit = () => {
-     // Logic to handle ventilator submission
-     alert(`Ventilators updated: ${ventilators}`);
-   };
 
-   useEffect(() => {
-     const token = localStorage.getItem('authToken');
-     if (!token) {
-       window.location.href = '/login';
-     }
-   }, []);
+  const handleThetorySubmit = () => {
+    alert(`Thetory updated: ${thetory}`);
+  };
 
+  const handleVentilatorsSubmit = () => {
+    alert(`Ventilators updated: ${ventilators}`);
+  };
+
+  // Check token on mount
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      window.location.href = '/login';
+    }
+  }, []);
 
   return (
     <div className="home-container">
@@ -263,15 +90,16 @@ function Home() {
               />
               <button onClick={handleOxygenSubmit}>Update</button>
             </div>
+
             <div className='box'>
-              <h2>Available theotory</h2>
+              <h2>Available Thetory</h2>
               <input
                 type="number"
-                value={theotory}
-                onChange={(e) => setTheotory(e.target.value)}
-                placeholder="Enter Oxygen Capacity"
+                value={thetory}
+                onChange={(e) => setThetory(e.target.value)}
+                placeholder="Enter Thetory"
               />
-              <button onClick={handleTheotorySubmit}>Update</button>
+              <button onClick={handleThetorySubmit}>Update</button>
             </div>
 
             <div className='box'>
@@ -285,24 +113,23 @@ function Home() {
               <button onClick={handleVentilatorsSubmit}>Update</button>
             </div>
           </div>
-          
+
           <div className='available-beds'>
-            <h2>Available Beds </h2>
+            <h2>Available Beds</h2>
             <div className="bed-controls">
-              {/* Hospital name input */}
+              {/* Auto-filled Hospital Name (read-only) */}
               <input
                 type="text"
                 value={hospitalName}
-                onChange={(e) => setHospitalName(e.target.value)}
-                placeholder="Enter Hospital Name"
+                readOnly
                 className="hospital-input"
               />
               
               {/* Bed count input */}
               <input
                 type="number"
-                value={bedCount}
-                onChange={(e) => setBedCount(e.target.value)}
+                value={bed}
+                onChange={(e) => setBed(Number(e.target.value))}
                 placeholder="Enter Bed Count"
                 className="bed-input"
               />

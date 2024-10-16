@@ -101,13 +101,10 @@ function SignupPage() {
       console.log('Sending registration data:', requestData);
       const response = await axios.post('http://localhost:5000/api/Hospital_login/signup', requestData);
       console.log(response.data);
-
-      alert('Registration successful!');
-      navigate('/ICU List'); 
+      navigate('/ICU List');
     } catch (error) {
       console.error('Error during registration:', error);
-      alert('Registration failed. Please try again.');
-
+      setErrorMessage('An error occurred during registration. Please try again.');
     }
   };
 
