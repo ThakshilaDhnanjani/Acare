@@ -1,57 +1,70 @@
-// import React from 'react';
-// import './Navbar.css';
-// import { FaBell, FaCog, FaSignOutAlt } from 'react-icons/fa'; // Import the icons
-// import logo from '../Assets/logo.png';
 
-// function Header() {
+// import React from 'react';
+// import { Link } from 'react-router-dom';
+// import './Navbar.css';
+// import { FaBell, FaCog, FaSignOutAlt } from 'react-icons/fa';
+
+// function Navbar() {
+
+
 //   return (
-//     <header className='nav-links'>
+//     <header>
 //       <nav>
-//         <img src={logo} alt='' className='logo' />
-//         <ul>
-//           <li><a href="/">Home</a></li>
-//           <li><a href="/ICU List">ICU List</a></li>
-//           <li><a href="/ambulance">Ambulance</a></li>
-//           <li><a href="/location">Live Location</a></li>
-//          {/* { <li><a href="/about">About</a></li>} */}
-//           {/* <li><a href="/contact">Contact</a></li> */}
-//         </ul>
-        
-//           <a href="/notifications"><FaBell className='abc' /></a>
-//           <a href="/settings"><FaCog  /></a>
-//           <a href="/logout"><FaSignOutAlt  /></a>
-        
+//         <div className='nav-links'>
+//           <ul>
+//             <li><Link to="/">Home</Link></li>
+//             <li><Link to="/icu-list">ICU List</Link></li>
+//             <li><Link to="/ambulance">Ambulance</Link></li>
+//             <li><Link to="/location">Live Location</Link></li>
+//           </ul>
+//         </div>
+//         <div className='icons'>
+//           <Link to="/emergency-alerts"><FaBell /></Link>
+//           <Link to="/settings"><FaCog /></Link>
+//           <Link to="/login"><FaSignOutAlt /></Link>
+//         </div>
 //       </nav>
 //     </header>
 //   );
 // }
 
-// export default Header;
+// export default Navbar;
 
-import React from 'react';
+
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import './Navbar.css';
-import { FaBell, FaCog, FaSignOutAlt } from 'react-icons/fa';
+import { FaBell, FaCog, FaSignOutAlt, FaBars } from 'react-icons/fa';
 
-function Header() {
+function Navbar() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+
   return (
     <header>
       <nav>
-        <div className='nav-links'>
+        <div className={`nav-links ${isMenuOpen ? 'active' : ''}`}>
           <ul>
-            <li><a href="/">Home</a></li>
-            <li><a href="/ICU List">ICU List</a></li>
-            <li><a href="/ambulance">Ambulance</a></li>
-            <li><a href="/location">Live Location</a></li>
+            <li><Link to="/" onClick={toggleMenu}>Home</Link></li>
+            <li><Link to="/icu-list" onClick={toggleMenu}>ICU List</Link></li>
+            <li><Link to="/ambulance" onClick={toggleMenu}>Ambulance</Link></li>
+            <li><Link to="/location" onClick={toggleMenu}>Live Location</Link></li>
           </ul>
         </div>
         <div className='icons'>
-          <a href="/notifications"><FaBell /></a>
-          <a href="/settings"><FaCog /></a>
-          <a href="/loginpage"><FaSignOutAlt /></a>
+          <Link to="/emergency-alerts"><FaBell /></Link>
+          <Link to="/settings"><FaCog /></Link>
+          <Link to="/login"><FaSignOutAlt /></Link>
+        </div>
+        <div className="menu-icon" onClick={toggleMenu}>
+          <FaBars />
         </div>
       </nav>
     </header>
   );
 }
 
-export default Header;
+export default Navbar;

@@ -29,11 +29,6 @@ const AddAmbulance = () => {
 
     return (
         <>
-        <div className='header'>
-            <Navbar />
-            
-        </div>
-        
     <div className='.add-ambulance-page'>
         
    

@@ -76,9 +76,7 @@ const AmbulanceList = () => {
 
   return (
     <>
-      <div className='header'>
-        <Navbar />
-      </div>
+
       <div className="ambulance-list">
         {ambulances.map((ambulance) => (
           <div key={ambulance._id} className="ambulance-box">

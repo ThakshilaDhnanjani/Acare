@@ -5,7 +5,7 @@ import './LiveLocation.css';
 function LiveLocation(){
     return (
         <div className='location'>
-            <div className='header'><Navbar/></div>
+            <div className='header'></div>
         </div>
       );
     }

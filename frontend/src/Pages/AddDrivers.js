@@ -137,9 +137,6 @@ const AddDrivers = () => {
 
     return (
         <>
-            <header className='header'>
-                <Navbar />
-            </header>
             <main className="add-driver-page">
                 <div className="add-driver-container">
                     <h2>Add Driver</h2>
