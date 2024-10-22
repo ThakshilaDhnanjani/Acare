@@ -51,7 +51,7 @@ router.post('/signup', async (req, res) => {
 
         const result = await newUser.save();
         const payload = { user: { id: result.id } };
-        jwt.sign(payload, secretKey, { expiresIn: 36000 }, (err, token) => {
+        jwt.sign(payload, secretKey, { expiresIn: '24h' }, (err, token) => {
             if (err) throw err;
             res.json({
                 status: "SUCCESS",
@@ -92,7 +92,7 @@ router.post('/signin', async (req, res) => {
       const match = await bcrypt.compare(password, user.password);
       if (match) {
           const payload = { user: { id: user.id, hospitalId: user.hospitalId, username: user.username } }; // Include hospitalId and username
-          jwt.sign(payload, secretKey, { expiresIn: 86400 }, (err, token) => { // Set token expiration to 1 day
+          jwt.sign(payload, secretKey, { expiresIn: '24h'}, (err, token) => { // Set token expiration to 1 day
               if (err) throw err;
               res.json({
                   status: "SUCCESS",

@@ -16,10 +16,8 @@ function Home() {
   const [message, setMessage] = useState('');
   const [oxygenCapacity, setOxygenCapacity] = useState(0);
   const [ventilators, setVentilators] = useState(0);
-  const [thetory, setThetory] = useState(0);
-
-  // Auto-fill hospital name from location.state
-  const [hospitalName, setHospitalName] = useState(username);
+  const [theater, setTheater] = useState(0);
+  const [hospitalName] = useState(username);
 
   // Function to update bed count in the backend
   const updateBeds = async () => {
@@ -48,8 +46,8 @@ function Home() {
     alert(`Oxygen capacity updated: ${oxygenCapacity}`);
   };
 
-  const handleThetorySubmit = () => {
-    alert(`Thetory updated: ${thetory}`);
+  const handleTheaterSubmit = () => {
+    alert(`Theater updated: ${theater}`);
   };
 
   const handleVentilatorsSubmit = () => {
@@ -92,14 +90,14 @@ function Home() {
             </div>
 
             <div className='box'>
-              <h2>Available Thetory</h2>
+              <h2>Available Theater</h2>
               <input
                 type="number"
-                value={thetory}
-                onChange={(e) => setThetory(e.target.value)}
-                placeholder="Enter Thetory"
+                value={theater}
+                onChange={(e) => setTheater(e.target.value)}
+                placeholder="Enter Theater"
               />
-              <button onClick={handleThetorySubmit}>Update</button>
+              <button onClick={handleTheaterSubmit}>Update</button>
             </div>
 
             <div className='box'>
