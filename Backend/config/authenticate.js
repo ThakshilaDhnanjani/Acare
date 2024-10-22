@@ -159,7 +159,7 @@ const authenticate = (req, res, next) => {
         console.log('Decoded token:', decoded); // Log decoded token for debugging
 
         // Attach the user information from the token to the request
-        req.user = decoded.user; 
+        req.user = decoded.user;
 
         // Continue to the next middleware or route
         next();

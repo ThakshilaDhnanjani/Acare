@@ -23,6 +23,7 @@ function Home() {
   const updateBeds = async () => {
     try {
       const token = localStorage.getItem('token');
+      console.log('Token:', token);
       const response = await axios.put('http://localhost:5000/api/Bedavailability/updatebeds', 
         {
           username: username, // Send hospitalId to identify the hospital

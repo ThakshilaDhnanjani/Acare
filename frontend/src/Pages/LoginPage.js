@@ -22,7 +22,7 @@ function LoginPage() {
 
       if (response.data.status === 'SUCCESS') {
         // Save token in localStorage
-        localStorage.setItem('authenticateToken', response.data.token);
+        localStorage.setItem('token', response.data.token);
 
         // Handle 'Remember Me' functionality
         if (rememberMe) {
