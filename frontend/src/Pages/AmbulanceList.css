@@ -1,0 +1,43 @@
+
+
+.ambulance-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    padding: 20px;
+    background-color: #f4f4f4;
+  }
+  
+  .ambulance-box {
+    flex: 0 0 calc(33.33% - 20px); 
+    margin-bottom: 100px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    text-align: center;
+  }
+  .ambulance-box button{
+
+    padding: 10px;
+    background-color: #1e3281;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    width: 140px;
+  }
+ 
+  @media (max-width: 768px) {
+    .ambulance-box {
+      flex-basis: calc(50% - 20px); 
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .ambulance-box {
+      flex-basis: 100%; 
+    }
+  }
+  
