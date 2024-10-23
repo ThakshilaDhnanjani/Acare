@@ -1,0 +1,1 @@
+ E:\\Acare_project\\Acare\\Acare\\mobile_app\\mobile\\.dart_tool\\flutter_build\\b9bf838dc9f3cfb7bc879063ad50a0bf\\native_assets.yaml: 
