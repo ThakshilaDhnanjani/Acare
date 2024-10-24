@@ -1,5 +1,5 @@
-/*const express = require('express');
-const Hospital = require('../models/Hospital_login'); // Adjust the path as necessary
+const express = require('express');
+const Hospital = require('../models/Hospital_login');
 const router = express.Router();
 const authenticate = require('../config/authenticate');
 
@@ -44,7 +44,7 @@ router.put('/updatebeds', authenticate, async (req, res) => {
 });
 
 module.exports = router;
-*/
+/*
 
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
@@ -83,3 +83,4 @@ const authenticate = (req, res, next) => {
 };
 
 module.exports = authenticate;
+*/

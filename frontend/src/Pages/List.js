@@ -55,7 +55,7 @@ export default function List() {
           <div key={index} className="icu-box">
             <h2>{icu.location}</h2>
             <div className="icu-header">
-              <h2>{icu.name}</h2>
+              <h3>{icu.availableBeds}</h3>
               
               <button className="view-more-button"  onClick={() => handleViewMore(icu)}
               >View More Info</button>
