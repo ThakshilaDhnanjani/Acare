@@ -59,19 +59,18 @@ function Home() {
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (!token) {
-      window.location.href = '/login';
+      window.location.href = '/home';
     }
   }, []);
 
   return (
     <div className="home-container">
-      <div className='header'>
-        <Navbar />
-      </div>
+      <Navbar />
       <div className="home">
         <div className='sidebar'>
           <ul>
             <img src={logo} alt='Logo' className='logo' />
+            <div className='hospitalname'>{hospitalName}</div>
             <li><a href="./AddAmbulance">Add Ambulance</a></li>
             <li><a href="/AddDrivers">Add Drivers</a></li>
           </ul>
@@ -116,13 +115,6 @@ function Home() {
           <div className='available-beds'>
             <h2>Available Beds</h2>
             <div className="bed-controls">
-              {/* Auto-filled Hospital Name (read-only) */}
-              <input
-                type="text"
-                value={hospitalName}
-                readOnly
-                className="hospital-input"
-              />
               
               {/* Bed count input */}
               <input

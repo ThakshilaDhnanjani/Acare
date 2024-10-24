@@ -32,7 +32,7 @@ function LoginPage() {
         }
 
         // Navigate to the home page and pass the beds and username in state
-        navigate('/home', { state: { username: response.data.username , beds: response.data.beds,  } });
+        navigate('/Home', { state: { username: response.data.username , beds: response.data.beds,  } });
         console.log(response.data);
       } else {
         setErrorMessage('Login failed. Please try again.');
