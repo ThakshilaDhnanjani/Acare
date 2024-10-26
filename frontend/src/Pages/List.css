@@ -2,7 +2,7 @@
 .icu-list {
   flex-direction: column;
   align-items: center;
-  max-width: 1100px;
+  max-width: 1200px;
   margin: 1rem auto;
   padding: 0 1rem;
   display: grid;
@@ -14,7 +14,7 @@
 .icu-box {
   flex: 0 0 calc(50% - 1rem);
   background-color: var(--white);
-  border-radius: 8px;
+  border-radius: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   margin: 1.5rem 0;
   padding: 1.5rem;
@@ -27,6 +27,8 @@
 .icu-box:hover {
   transform: translateY(-5px);
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  border: 2px solid darkblue ;
+  background-color: lightcyan;
 }
 
 .icu-header {
@@ -38,12 +40,21 @@
 
 .icu-box h2 {
   margin: 0;
-  font-size: 1.5rem;
+  font-size: 1.7rem;
   color: var(--primary-blue);
+  font-style: bold;
+}
+
+.icu-box h3 {
+  margin: 3px;
+  font-size: 4rem;
+  color: var(--primary-blue);
+  border-radius: 10px;
+  border: 3px solid lightblue ;
 }
 
 .view-more-button {
-  background-color: var(--primary-blue);
+  background-color: green;
   color: var(--white);
   border: none;
   padding: 0.5rem 1rem;
@@ -106,7 +117,7 @@ tr:last-child td {
 }
 
 .request-bed-button:hover:not(:disabled) {
-  background-color: var(--secondary-blue);
+  background-color: red;
 }
 
 .request-bed-button:disabled {

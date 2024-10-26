@@ -58,6 +58,11 @@ export default function List() {
           <div key={index} className="icu-box">
             <h2>{icu.location}</h2>
             <div className="icu-header">
+              <h3>{icu.availableBeds}</h3>
+              
+              <button className="view-more-button"  onClick={() => handleViewMore(icu)}
+              >View More Info</button>
+
               <h2>{icu.name}</h2>
               <button className="view-more-button" onClick={() => handleViewMore(icu.name)}>
                 View More Info
