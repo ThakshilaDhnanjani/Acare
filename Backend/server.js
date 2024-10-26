@@ -14,6 +14,7 @@ const notificationRoutes = require('./api/Notification'); // Import notification
 const ventilators = require('./api/Ventilators'); // Import ventilators routes
 const theaters = require('./api/Theater'); // Import theaters routes
 const oxygenRoutes = require('./api/Oxygen'); // Import oxygen routes
+const moreinfoRoutes = require('./api/Moreinfo'); // Import moreinfo routes
 
 const app = express();       //initializes an Express application.
 
@@ -34,6 +35,7 @@ app.use('/api/Icu',IcuRoutes);
 app.use('/api/Notification', notificationRoutes);
 app.use('/api/Theater', theaters);
 app.use('/api/Oxygen', oxygenRoutes);
+app.use('/api/Moreinfo', moreinfoRoutes);
 
 // MongoDB connection
 mongoose.connect(process.env.MONGODB_URI, {

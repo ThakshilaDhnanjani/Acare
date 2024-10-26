@@ -30,7 +30,7 @@ function App() {
          <Route path='/location' element={<LiveLocation />} />
          <Route path='/AddAmbulance' element={<AddAmbulance />} />
          <Route path='/AddDrivers' element={<AddDrivers />} />
-         <Route path="/Detail" element={<Detail />} />
+         <Route path="/Detail/:id" element={<Detail />} />
          
       </Routes>
     </div>

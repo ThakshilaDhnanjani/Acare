@@ -24,18 +24,18 @@ function Home() {
     try {
       const token = localStorage.getItem('token');
       console.log('Token:', token);
-      const response = await axios.put('http://localhost:5000/api/Bedavailability/updatebeds', 
+      const response = await axios.put('http://localhost:5000/api/Bedavailability/updatebeds',
         {
           username: username, // Send hospitalId to identify the hospital
           beds: bed // Send the updated bed count
-        }, 
+        },
         {
           headers: { Authorization: `Bearer ${token}` }
         }
       );
 
-      setMessage(response.data.status === 'SUCCESS' 
-        ? 'Bed count updated successfully!' 
+      setMessage(response.data.status === 'SUCCESS'
+        ? 'Bed count updated successfully!'
         : 'Failed to update bed count!');
     } catch (error) {
       setMessage('Error occurred while updating bed count.');

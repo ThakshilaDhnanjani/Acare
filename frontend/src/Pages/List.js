@@ -4,8 +4,6 @@ import Navbar from '../components/Navbar';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-
-
 export default function List() {
   const [icuData, setIcuData] = useState([]);
   const navigate = useNavigate();
@@ -13,7 +11,11 @@ export default function List() {
   useEffect(() => {
     const fetchICUData = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/icu');
+        const response = await axios.get('http://localhost:5000/api/icu', {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`  // Include token
+          }
+        });
         setIcuData(response.data);
         console.log('ICU data:', response.data);
       } catch (error) {
@@ -26,7 +28,11 @@ export default function List() {
 
   const handleRequestBed = async (hospitalId) => {
     try {
-      await axios.put(`http://localhost:5000/api/icu/request-bed/${hospitalId}`);
+      await axios.put(`http://localhost:5000/api/icu/request-bed/${hospitalId}`, {}, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`  // Include token
+        }
+      });
       setIcuData(prevIcus => {
         return prevIcus.map(icu => {
           if (icu.name === hospitalId) {
@@ -39,13 +45,10 @@ export default function List() {
       console.error('Error requesting bed:', error);
     }
   };
-//new
-  const handleViewMore = (icu) => {
-    navigate('/Detail', { state: { ...icu } });
+
+  const handleViewMore = (hospitalName) => {
+    navigate(`/Detail/${hospitalName}`);  // Navigate to detail page with hospital name
   };
-//
-
-
 
   return (
     <>
@@ -56,10 +59,9 @@ export default function List() {
             <h2>{icu.location}</h2>
             <div className="icu-header">
               <h2>{icu.name}</h2>
-              
-              <button className="view-more-button"  onClick={() => handleViewMore(icu)}
-              >View More Info</button>
-
+              <button className="view-more-button" onClick={() => handleViewMore(icu.name)}>
+                View More Info
+              </button>
             </div>
             <p><strong>Location:</strong> {icu.location}</p>
             <p><strong>Contact:</strong> {icu.contact}</p>
@@ -78,7 +80,7 @@ export default function List() {
                   <td>
                     <button 
                       className="request-bed-button"
-                      onClick={() => handleRequestBed(icu.name)} // Pass hospitalId
+                      onClick={() => handleRequestBed(icu.name)}
                       disabled={icu.availableBeds === 0}
                     >
                       Request Bed
