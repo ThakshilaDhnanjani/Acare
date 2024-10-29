@@ -9,25 +9,25 @@ function Home() {
   const location = useLocation();
   
   // Extract data passed via `state` from the previous page
-  const { beds = 0, username = '' } = location.state || {}; // Default values
+  const { beds = 0, username = '' ,ventilators = 0, theaters = 0, oxygen =0} = location.state || {}; // Default values
 
   // Initialize state variables with default values
   const [bed, setBed] = useState(beds);
   const [message, setMessage] = useState('');
-  const [oxygenCapacity, setOxygenCapacity] = useState(0);
-  const [ventilators, setVentilators] = useState(0);
-  const [theater, setTheater] = useState(0);
+  const [oxygenCapacity, setOxygen] = useState(oxygen);
+  const [ventilator, setVentilators] = useState(ventilators);
+  const [theater, setTheater] = useState(theaters);
   const [hospitalName] = useState(username);
 
   // Function to update bed count in the backend
   const updateBeds = async () => {
     try {
       const token = localStorage.getItem('token');
-      console.log('Token:', token);
       const response = await axios.put('http://localhost:5000/api/Bedavailability/updatebeds',
         {
-          username: username, // Send hospitalId to identify the hospital
-          beds: bed // Send the updated bed count
+          username: username,
+          beds: bed,
+
         },
         {
           headers: { Authorization: `Bearer ${token}` }
@@ -42,17 +42,70 @@ function Home() {
     }
   };
 
-  // Example functions for oxygen capacity and ventilators (similar structure)
-  const handleOxygenSubmit = () => {
-    alert(`Oxygen capacity updated: ${oxygenCapacity}`);
+  // Function to update oxygen capacity in the backend
+  const updateOxygen = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await axios.put('http://localhost:5000/api/Bedavailability/updateoxygen',
+        {
+          username: username,
+          oxygen: oxygenCapacity
+        },
+        {
+          headers: { Authorization: `Bearer ${token}` }
+        }
+      );
+
+      setMessage(response.data.status === 'SUCCESS'
+        ? 'Oxygen capacity updated successfully!'
+        : 'Failed to update oxygen capacity!');
+    } catch (error) {
+      setMessage('Error occurred while updating oxygen capacity.');
+    }
   };
 
-  const handleTheaterSubmit = () => {
-    alert(`Theater updated: ${theater}`);
+  // Function to update theater count in the backend
+  const updateTheater = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await axios.put('http://localhost:5000/api/Bedavailability/updatetheaters',
+        {
+          username: username,
+          theaters: theater
+        },
+        {
+          headers: { Authorization: `Bearer ${token}` }
+        }
+      );
+
+      setMessage(response.data.status === 'SUCCESS'
+        ? 'Theater count updated successfully!'
+        : 'Failed to update theater count!');
+    } catch (error) {
+      setMessage('Error occurred while updating theater count.');
+    }
   };
 
-  const handleVentilatorsSubmit = () => {
-    alert(`Ventilators updated: ${ventilators}`);
+  // Function to update ventilators in the backend
+  const updateVentilators = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await axios.put('http://localhost:5000/api/Bedavailability/updateventilators',
+        {
+          username: username,
+          ventilators: ventilator
+        },
+        {
+          headers: { Authorization: `Bearer ${token}` }
+        }
+      );
+
+      setMessage(response.data.status === 'SUCCESS'
+        ? 'Ventilators count updated successfully!'
+        : 'Failed to update ventilators count!');
+    } catch (error) {
+      setMessage('Error occurred while updating ventilators count.');
+    }
   };
 
   // Check token on mount
@@ -66,6 +119,7 @@ function Home() {
   return (
     <div className="home-container">
       <Navbar />
+      {message && <p>{message}</p>}
       <div className="home">
         <div className='sidebar'>
           <ul>
@@ -83,10 +137,10 @@ function Home() {
               <input
                 type="number"
                 value={oxygenCapacity}
-                onChange={(e) => setOxygenCapacity(e.target.value)}
+                onChange={(e) => setOxygen(Number(e.target.value))}
                 placeholder="Enter Oxygen Capacity"
               />
-              <button onClick={handleOxygenSubmit}>Update</button>
+              <button onClick={updateOxygen}>Update</button>
             </div>
 
             <div className='box'>
@@ -94,28 +148,27 @@ function Home() {
               <input
                 type="number"
                 value={theater}
-                onChange={(e) => setTheater(e.target.value)}
+                onChange={(e) => setTheater(Number(e.target.value))}
                 placeholder="Enter Theater"
               />
-              <button onClick={handleTheaterSubmit}>Update</button>
+              <button onClick={updateTheater}>Update</button>
             </div>
 
             <div className='box'>
               <h2>Available Ventilators</h2>
               <input
                 type="number"
-                value={ventilators}
-                onChange={(e) => setVentilators(e.target.value)}
+                value={ventilator}
+                onChange={(e) => setVentilators(Number(e.target.value))}
                 placeholder="Enter Ventilators"
               />
-              <button onClick={handleVentilatorsSubmit}>Update</button>
+              <button onClick={updateVentilators}>Update</button>
             </div>
           </div>
 
           <div className='available-beds'>
             <h2>Available Beds</h2>
             <div className="bed-controls">
-              
               {/* Bed count input */}
               <input
                 type="number"
@@ -126,9 +179,11 @@ function Home() {
               />
             </div>
             <button id="submit-button" onClick={updateBeds}>Update</button>
-            {message && <p>{message}</p>}
+            
           </div>
+          
         </div>
+        
       </div>
     </div>
   );

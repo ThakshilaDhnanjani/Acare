@@ -63,10 +63,6 @@ export default function List() {
               <button className="view-more-button"  onClick={() => handleViewMore(icu)}
               >View More Info</button>
 
-              <h2>{icu.name}</h2>
-              <button className="view-more-button" onClick={() => handleViewMore(icu.name)}>
-                View More Info
-              </button>
             </div>
             <p><strong>Location:</strong> {icu.location}</p>
             <p><strong>Contact:</strong> {icu.contact}</p>

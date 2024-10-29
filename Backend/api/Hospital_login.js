@@ -7,9 +7,9 @@ const secretKey = process.env.JWT_SECRET;
 
 // Signup Route
 router.post('/signup', async (req, res) => {
-    const { username, hospitalId, email, password, beds } = req.body;
+    const { username, hospitalId, email,contact, password, beds } = req.body;
 
-    if (!hospitalId || !username || !email || !password || !beds) {
+    if (!hospitalId || !username ||!contact|| !email || !password || !beds) {
         return res.json({
             status: 'FAILED',
             message: 'All fields are required!'
@@ -45,6 +45,7 @@ router.post('/signup', async (req, res) => {
             username,
             hospitalId,
             email,
+            contact,
             password: hashedPassword,
             beds
         });
@@ -99,7 +100,11 @@ router.post('/signin', async (req, res) => {
                   message: "Signin successful!",
                   token,
                   beds: user.beds,
-                  username: user.username
+                  username: user.username,
+                  ventilators: user.ventilators,
+                  theaters: user.theaters,
+                  oxygen: user.oxygen,
+                  
               });
           });
       } else {
