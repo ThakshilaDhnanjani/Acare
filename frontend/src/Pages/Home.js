@@ -4,61 +4,50 @@ import axios from 'axios';
 import './Home.css';
 import Navbar from '../components/Navbar';
 import logo from '../Assets/logo.png';
+import PieChart from '../components/Blood_Count';
 
 function Home() {
   const location = useLocation();
-  
-  // Extract data passed via `state` from the previous page
-  const { beds = 0, username = '' } = location.state || {}; // Default values
 
-  // Initialize state variables with default values
-  const [bed, setBed] = useState(beds);
+  // Initialize variables with values from localStorage
+  const [bed, setBed] = useState(0);
   const [message, setMessage] = useState('');
-  const [oxygenCapacity, setOxygenCapacity] = useState(0);
-  const [ventilators, setVentilators] = useState(0);
+  const [oxygenCapacity, setOxygen] = useState(0);
+  const [ventilator, setVentilators] = useState(0);
   const [theater, setTheater] = useState(0);
-  const [hospitalName] = useState(username);
-  const name = localStorage.getItem('rememberedUsername');
-  
+  const [hospitalName] = useState(localStorage.getItem('username')); // Username from localStorage
+  const hospitalId = localStorage.getItem('hospitalId'); // hospitalId from localStorage
+
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await axios.post('http://localhost:5000/api/Bedavailability/fetchBed', {
-          name,
-        });
-
-        console.log(response); 
+        const response = await axios.get(`http://localhost:5000/api/Bedavailability/fetchBed?name=${hospitalName}`);
+        
         if (response) {
           const data = response.data; 
           setBed(data.beds); 
-          setVentilators(data.ventilators)
-          setOxygenCapacity(data.oxygen)
-          setTheater(data.theaters)
+          setVentilators(data.ventilators);
+          setOxygen(data.oxygen);
+          setTheater(data.theaters);
         } else {
-          console.error('error fetch');
+          console.error('Error fetching data');
         }
       } catch (error) {
         console.error('Error:', error);
       }
     };
-
-    fetchUserData(); 
-  }, [name]);
   
+    fetchUserData(); 
+  }, [hospitalName]);
 
-
-
-
-
-
+  // Update bed count in the backend
   const updateBeds = async () => {
     try {
       const token = localStorage.getItem('token');
-      console.log('Token:', token);
       const response = await axios.put('http://localhost:5000/api/Bedavailability/updatebeds',
         {
-          username: username, // Send hospitalId to identify the hospital
-          beds: bed // Send the updated bed count
+          username: hospitalName,
+          beds: bed,
         },
         {
           headers: { Authorization: `Bearer ${token}` }
@@ -73,20 +62,73 @@ function Home() {
     }
   };
 
-  // Example functions for oxygen capacity and ventilators (similar structure)
-  const handleOxygenSubmit = () => {
-    alert(`Oxygen capacity updated: ${oxygenCapacity}`);
+  // Update oxygen capacity in the backend
+  const updateOxygen = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await axios.put('http://localhost:5000/api/Bedavailability/updateoxygen',
+        {
+          username: hospitalName,
+          oxygen: oxygenCapacity
+        },
+        {
+          headers: { Authorization: `Bearer ${token}` }
+        }
+      );
+
+      setMessage(response.data.status === 'SUCCESS'
+        ? 'Oxygen capacity updated successfully!'
+        : 'Failed to update oxygen capacity!');
+    } catch (error) {
+      setMessage('Error occurred while updating oxygen capacity.');
+    }
   };
 
-  const handleTheaterSubmit = () => {
-    alert(`Theater updated: ${theater}`);
+  // Update theater count in the backend
+  const updateTheater = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await axios.put('http://localhost:5000/api/Bedavailability/updatetheaters',
+        {
+          username: hospitalName,
+          theaters: theater
+        },
+        {
+          headers: { Authorization: `Bearer ${token}` }
+        }
+      );
+
+      setMessage(response.data.status === 'SUCCESS'
+        ? 'Theater count updated successfully!'
+        : 'Failed to update theater count!');
+    } catch (error) {
+      setMessage('Error occurred while updating theater count.');
+    }
   };
 
-  const handleVentilatorsSubmit = () => {
-    alert(`Ventilators updated: ${ventilators}`);
+  // Update ventilators in the backend
+  const updateVentilators = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await axios.put('http://localhost:5000/api/Bedavailability/updateventilators',
+        {
+          username: hospitalName,
+          ventilators: ventilator
+        },
+        {
+          headers: { Authorization: `Bearer ${token}` }
+        }
+      );
+
+      setMessage(response.data.status === 'SUCCESS'
+        ? 'Ventilators count updated successfully!'
+        : 'Failed to update ventilators count!');
+    } catch (error) {
+      setMessage('Error occurred while updating ventilators count.');
+    }
   };
 
-  // Check token on mount
+  // Check token on mount and redirect if missing
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (!token) {
@@ -97,6 +139,7 @@ function Home() {
   return (
     <div className="home-container">
       <Navbar />
+      {message && <p>{message}</p>}
       <div className="home">
         <div className='sidebar'>
           <ul>
@@ -114,10 +157,10 @@ function Home() {
               <input
                 type="number"
                 value={oxygenCapacity}
-                onChange={(e) => setOxygenCapacity(e.target.value)}
+                onChange={(e) => setOxygen(Number(e.target.value))}
                 placeholder="Enter Oxygen Capacity"
               />
-              <button onClick={handleOxygenSubmit}>Update</button>
+              <button onClick={updateOxygen}>Update</button>
             </div>
 
             <div className='box'>
@@ -125,29 +168,27 @@ function Home() {
               <input
                 type="number"
                 value={theater}
-                onChange={(e) => setTheater(e.target.value)}
+                onChange={(e) => setTheater(Number(e.target.value))}
                 placeholder="Enter Theater"
               />
-              <button onClick={handleTheaterSubmit}>Update</button>
+              <button onClick={updateTheater}>Update</button>
             </div>
 
             <div className='box'>
               <h2>Available Ventilators</h2>
               <input
                 type="number"
-                value={ventilators}
-                onChange={(e) => setVentilators(e.target.value)}
+                value={ventilator}
+                onChange={(e) => setVentilators(Number(e.target.value))}
                 placeholder="Enter Ventilators"
               />
-              <button onClick={handleVentilatorsSubmit}>Update</button>
+              <button onClick={updateVentilators}>Update</button>
             </div>
           </div>
 
-          <div className='available-beds'>
-            <h2>Available Beds</h2>
-            <div className="bed-controls">
-              
-              {/* Bed count input */}
+          <div className='boxes-container'>
+            <div className='box'>
+              <h2>Available Beds</h2>
               <input
                 type="number"
                 value={bed}
@@ -155,9 +196,11 @@ function Home() {
                 placeholder="Enter Bed Count"
                 className="bed-input"
               />
+              <button id="submit-button" onClick={updateBeds}>Update</button>
             </div>
-            <button id="submit-button" onClick={updateBeds}>Update</button>
-            {message && <p>{message}</p>}
+            <div className='box'>
+              <PieChart />
+            </div>
           </div>
         </div>
       </div>

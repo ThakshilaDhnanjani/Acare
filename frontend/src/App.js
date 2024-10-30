@@ -11,6 +11,7 @@ import AddAmbulance from './Pages/AddAmbulance';
 import AddDrivers from './Pages/AddDrivers';
 import Detail from './Pages/Detail';
 import EmergencyAlertsPage from './Pages/EmergencyAlertsPage';
+import DriverTable from './Pages/DriverTable';
 
 
 
@@ -31,6 +32,7 @@ function App() {
          <Route path='/AddDrivers' element={<AddDrivers />} />
          <Route path="/Detail/:hospitalName" element={<Detail />} />
          <Route path="/emergency-alerts" element={<EmergencyAlertsPage  />} />
+         <Route path="/DriverTable" element={<DriverTable />} />
          
       </Routes>
     </div>

@@ -16,14 +16,15 @@
 
 .sidebar {
   width: 300px;
-  height:500px;
+  height:550px;
   margin-top: 20px;
   margin-left: 20px;
   border-radius: 20px;
-  background-color: var(--secondary-color);
+  background-color: #779cc1;
   padding: 30px;
   box-shadow: var(--box-shadow);
   transition: all 0.3s ease;
+  
 }
 
 
@@ -71,6 +72,8 @@
 .main-content {
   flex-grow: 1;
   padding: 40px;
+  margin-top: -35px;
+  height:100px;
 }
 
 .boxes-container {
@@ -78,14 +81,16 @@
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 30px;
   margin-bottom: 30px;
+
 }
 
 .box {
   background-color: white;
   border-radius: 15px;
-  padding: 25px;
+  padding: 15px;
   box-shadow: var(--box-shadow);
   transition: transform 0.3s ease;
+  height:260px;
 }
 
 
@@ -101,7 +106,7 @@
 
 .box input {
   width: 70%;
-  padding: 10px 1px 10px 10px;
+  padding: 10px 1px 1px 10px;
   border: 2px solid #ddd;
   border-radius: 8px;
   margin-bottom: 20px;
@@ -138,17 +143,18 @@
   border-radius: 15px;
   padding: 30px;
   box-shadow: var(--box-shadow);
-  max-width: 700px;
+  max-width: flex;
   margin: 0 auto;
+  margin-right: 500px;
 }
 
 .available-beds input {
-  height: 90px;
-  width: 80%;
+  height: 50px;
+  width: 90%;
   padding: 10px;
-  margin-right: 10px;
   border-radius: 10px;
   font-size: 60px;
+  text-align: center;
 }
 
 .available-beds h2 {
@@ -211,6 +217,7 @@
   .home {
     padding: auto;
     flex-direction: column;
+    align-items: center;
   }
 
   .sidebar {
@@ -221,5 +228,7 @@
 
   .boxes-container {
     grid-template-columns: 1fr;
+    
+
   }
 }
