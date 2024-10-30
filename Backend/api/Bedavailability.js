@@ -4,6 +4,51 @@ const router = express.Router();
 const authenticate = require('../config/authenticate');
 
 // Route to update beds
+
+
+
+// fetch details 
+router.post('/fetchBed', async (req, res) => {
+    try {
+      const { name } = req.body;
+      const user = await Hospital.findOne({ username: name });
+  
+      if (!user) {
+        return res.status(404).json({ error: 'hos not found' });
+      }
+      res.status(200).json(user);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'server error' });
+    }
+  });
+  
+
+
+ router.post('/fetchDetails/:id', async (req, res) => {
+    try {
+      let id = req.params.id;
+      const user = await Hospital.findOne({ hospitalId: id });
+  
+      if (!user) {
+        return res.status(404).json({ error: 'hos not found' });
+      }
+      res.status(200).json(user);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'server error' });
+    }
+  });
+
+
+
+
+
+
+
+
+
+
 router.put('/updatebeds', authenticate, async (req, res) => {
   const { username, beds } = req.body;
 
