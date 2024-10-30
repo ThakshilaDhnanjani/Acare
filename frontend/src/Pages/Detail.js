@@ -1,46 +1,49 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import Navbar from '../components/Navbar';
+import axios from 'axios';
 import './Detail.css';
 
 export default function Detail() {
-  const { hospitalName } = useParams();  // Get hospital name from URL
-  const [hospitalData, setHospitalData] = useState({
-    name: '',
-    hospitalId: '',
-    email: '',
-    beds: 0,
-    oxygenCapacity: 0,
-    ventilators: 0,
-    theaters: 0
-  });
+  const [bed, setBed] = useState(0);
+  const [message, setMessage] = useState('');
+  const [oxygenCapacity, setOxygenCapacity] = useState(0);
+  const [ventilators, setVentilators] = useState(0);
+  const [theater, setTheater] = useState(0);
+  const[HName, setHname] = useState('')
+  const name = localStorage.getItem('rememberedUsername');
+  const { hospitalName } = useParams();
 
-  // Fetch data from backend on component mount
+  console.log(hospitalName)
+  
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchUserData = async () => {
       try {
-        const response = await fetch(`/api/Moreinfo/get/${hospitalName}`, {  // Include hospital name in URL
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${localStorage.getItem('token')}`  // Include token
-          }
-        });
-
-        const result = await response.json();
-
-        if (response.ok) {
-          setHospitalData(result.Hospital);  // Update state with hospital data
+        const response = await axios.post(`http://localhost:5000/api/Bedavailability/fetchDetails/${hospitalName}`);
+        if (response) {
+          const data = response.data;
+          setBed(data.beds); 
+          setVentilators(data.ventilators)
+          setOxygenCapacity(data.oxygen)
+          setTheater(data.theaters)
+          setHname(data.username)
         } else {
-          console.error(result.status);
+          console.error('error fetch');
         }
       } catch (error) {
-        console.error("Error fetching hospital data:", error);
+        console.error('Error:', error);
       }
     };
 
-    fetchData();
-  }, [hospitalName]);  // Fetch data when hospitalName changes
+    fetchUserData(); 
+  }, [name]);
+
+
+
+
+
+
+
 
   return (
     <>
@@ -55,7 +58,7 @@ export default function Detail() {
               type="text"
               id="name"
               name="name"
-              value={hospitalData.name || ''}
+              value={HName || ''}
               readOnly
             />
           </div>
@@ -65,7 +68,7 @@ export default function Detail() {
               type="text"
               id="oxygenCapacity"
               name="oxygenCapacity"
-              value={hospitalData.oxygenCapacity || 'N/A'}
+              value={oxygenCapacity || 'N/A'}
               readOnly
             />
           </div>
@@ -75,7 +78,7 @@ export default function Detail() {
               type="text"
               id="ventilators"
               name="ventilators"
-              value={hospitalData.ventilators || 'N/A'}
+              value={ventilators || 'N/A'}
               readOnly
             />
           </div>
@@ -85,7 +88,7 @@ export default function Detail() {
               type="text"
               id="theaters"
               name="theaters"
-              value={hospitalData.theaters || 'N/A'}
+              value={theater || 'N/A'}
               readOnly
             />
           </div>

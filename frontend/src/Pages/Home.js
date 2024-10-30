@@ -18,8 +18,39 @@ function Home() {
   const [ventilators, setVentilators] = useState(0);
   const [theater, setTheater] = useState(0);
   const [hospitalName] = useState(username);
+  const name = localStorage.getItem('rememberedUsername');
+  
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const response = await axios.post('http://localhost:5000/api/Bedavailability/fetchBed', {
+          name,
+        });
 
-  // Function to update bed count in the backend
+        console.log(response); 
+        if (response) {
+          const data = response.data; 
+          setBed(data.beds); 
+          setVentilators(data.ventilators)
+          setOxygenCapacity(data.oxygen)
+          setTheater(data.theaters)
+        } else {
+          console.error('error fetch');
+        }
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    };
+
+    fetchUserData(); 
+  }, [name]);
+  
+
+
+
+
+
+
   const updateBeds = async () => {
     try {
       const token = localStorage.getItem('token');
