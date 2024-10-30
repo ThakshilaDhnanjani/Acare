@@ -32,7 +32,7 @@ function LoginPage() {
         }
 
         // Navigate to the home page and pass the beds and username in state
-        navigate('/Home', { state: { username: response.data.username , beds: response.data.beds,  } });
+        navigate('/Home', { state: { username: response.data.username , hospitalId: response.data.hospitalId, beds: response.data.beds, ventilators: response.data.ventilators , oxygen: response.data.oxygen , theaters: response.data.theaters} });
         console.log(response.data);
       } else {
         setErrorMessage('Login failed. Please try again.');

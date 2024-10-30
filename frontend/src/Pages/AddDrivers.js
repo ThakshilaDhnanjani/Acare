@@ -112,6 +112,7 @@ const AddDrivers = () => {
     const [driver_name, setDriver_name] = useState('');
     const [hospitalId, setHospitalId] = useState('');
     const [contact_no, setContact_no] = useState('');
+    const [message, setMessage] = useState('');
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -127,11 +128,9 @@ const AddDrivers = () => {
             setHospitalId('');
             setDriver_name('');
             setContact_no('');
-
-            // You might want to add a success message here
         } catch (error) {
             console.error('Error during adding:', error);
-            // You might want to add an error message here
+            setMessage('An error occurred. Please try again.');
         }
     };
 
@@ -183,6 +182,8 @@ const AddDrivers = () => {
                             />
                         </div>
                         <button type="submit" className="submit-button">Add Driver</button>
+                        
+                        {message && <p>{message}</p>}
                     </form>
                 </div>
             </main>

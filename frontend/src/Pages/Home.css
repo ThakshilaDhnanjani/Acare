@@ -211,6 +211,7 @@
   .home {
     padding: auto;
     flex-direction: column;
+    align-items: center;
   }
 
   .sidebar {
@@ -221,5 +222,7 @@
 
   .boxes-container {
     grid-template-columns: 1fr;
+    
+
   }
 }
