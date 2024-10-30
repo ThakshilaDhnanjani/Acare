@@ -1,13 +1,20 @@
+
 import React, { useState, useEffect } from 'react';
 import './AmbulanceList.css'; 
 import Navbar from '../components/Navbar';
+import pic from '../Assets/pic.png';
+
+const AmbulanceIcon = () => (
+    <img src={pic} alt="Ambulance" className='pic'/>
+
+);
 
 const AmbulanceList = () => {
   const [ambulances, setAmbulances] = useState([]);
 
   // Fetch ambulances from the backend
   useEffect(() => {
-    fetch('http://localhost:5000/api/Ambulance') // Adjust the URL to match your backend
+    fetch('http://localhost:5000/api/Ambulance') 
       .then((response) => response.json())
       .then((data) => {
         setAmbulances(data);
@@ -18,7 +25,6 @@ const AmbulanceList = () => {
   }, []);
 
   const handleSendLocation = (ambulanceId) => {
-    // You can replace this with logic to actually send location
     alert(`Send location for ambulance with ID: ${ambulanceId}`);
   };
 
@@ -28,10 +34,11 @@ const AmbulanceList = () => {
         <Navbar />
       </div>
       <div className="ambulance-list">
-        {ambulances.map((ambulance, index) => (
+        {ambulances.map((ambulance) => (
           <div key={ambulance._id} className="ambulance-box">
+            <AmbulanceIcon />
             <p>Vehicle Number: {ambulance.Ambulance_no}</p>
-            <button id="submit-button" onClick={() => handleSendLocation(ambulance._id)}>
+            <button onClick={() => handleSendLocation(ambulance._id)}>
               Send Location
             </button>
           </div>

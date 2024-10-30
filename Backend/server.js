@@ -8,7 +8,13 @@ const userRoutes = require('./api/User_login'); // Import user routes
 const hospitalRoutes = require('./api/Hospital_login'); // Import Hospital routes
 const driverRoutes = require('./api/Driver'); // Import driver routes
 const ambulanceRoutes = require('./api/Ambulance'); // Import Ambulance routes
-const availableBedRoutes = require('./api/Bed_availability'); // Import bed availability routes
+const availableBedRoutes = require('./api/Bedavailability'); // Import bed availability routes
+const IcuRoutes = require('./api/Icu'); // Import ICU routes
+const notificationRoutes = require('./api/Notification'); // Import notification routes
+const ventilators = require('./api/Ventilators'); // Import ventilators routes
+const theaters = require('./api/Theater'); // Import theaters routes
+const oxygenRoutes = require('./api/Oxygen'); // Import oxygen routes
+const moreinfoRoutes = require('./api/Moreinfo'); // Import moreinfo routes
 
 const app = express();       //initializes an Express application.
 
@@ -23,8 +29,13 @@ app.use('/api/User_login', userRoutes);
 app.use('/api/Hospital_login', hospitalRoutes);
 app.use('/api/Driver', driverRoutes);
 app.use('/api/Ambulance', ambulanceRoutes);
-app.use('/api/Bed_availability', availableBedRoutes);
-
+app.use('/api/Bedavailability', availableBedRoutes);
+app.use('/api/Ventilators', ventilators);
+app.use('/api/Icu',IcuRoutes);
+app.use('/api/Notification', notificationRoutes);
+app.use('/api/Theater', theaters);
+app.use('/api/Oxygen', oxygenRoutes);
+app.use('/api/Moreinfo', moreinfoRoutes);
 
 // MongoDB connection
 mongoose.connect(process.env.MONGODB_URI, {

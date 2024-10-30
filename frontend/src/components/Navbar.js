@@ -1,26 +1,41 @@
-import React from 'react';
+
+
+import React, { useState } from 'react';
 import './Navbar.css';
-import { FaBell, FaCog, FaSignOutAlt } from 'react-icons/fa'; // Import the icons
-import logo from '../Assets/logo.png';
+import { FaBell, FaCog, FaSignOutAlt, FaBars, FaTimes } from 'react-icons/fa';
 
 function Header() {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const toggleMenu = () => {
+    setIsOpen(!isOpen);
+  };
+
   return (
-    <header className='nav-links'>
+    <header>
       <nav>
-        <img src={logo} alt='' className='logo' />
-        <ul>
-          <li><a href="/">Home</a></li>
-          <li><a href="/ICU List">ICU List</a></li>
-          <li><a href="/ambulance">Ambulance</a></li>
-          <li><a href="/location">Live Location</a></li>
-         {/* { <li><a href="/about">About</a></li>} */}
-          {/* <li><a href="/contact">Contact</a></li> */}
-        </ul>
+        <div className="mobile-menu">
+          <button className="menu-toggle" onClick={toggleMenu}>
+            {isOpen ? <FaTimes /> : <FaBars />}
+          </button>
+        </div>
         
-          <a href="/notifications"><FaBell className='abc' /></a>
-          <a href="/settings"><FaCog  /></a>
-          <a href="/logout"><FaSignOutAlt  /></a>
-        
+        <div className={`nav-container ${isOpen ? 'active' : ''}`}>
+          <div className='nav-links'>
+            <ul>
+              <li><a href="/Home" onClick={() => setIsOpen(false)}>Home</a></li>
+              <li><a href="/ICU List" onClick={() => setIsOpen(false)}>ICU List</a></li>
+              <li><a href="/ambulance" onClick={() => setIsOpen(false)}>Ambulance</a></li>
+              <li><a href="/DriverTable" onClick={() => setIsOpen(false)}>Drivers</a></li>
+              <li><a href="/location" onClick={() => setIsOpen(false)}>Live Location</a></li>
+            </ul>
+          </div>
+          <div className='icons'>
+            <a href="/emergency-alerts"><FaBell /></a>
+            <a href="/settings"><FaCog /></a>
+            <a href="/"><FaSignOutAlt /></a>
+          </div>
+        </div>
       </nav>
     </header>
   );

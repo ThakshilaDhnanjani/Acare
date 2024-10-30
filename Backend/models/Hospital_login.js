@@ -2,12 +2,15 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
-    username: String,
-    hospitalId: String,
+    username: { type: String, unique: true }, // Ensure hospital name is unique
+    hospitalId:{ type: String,unique: true},
     email: String,
+    contact: String,
     password: String,
-    /*confirmpassword: String,*/
-    beds: Number
+    beds: Number,
+    oxygen: Number,
+    theaters: Number,
+    ventilators: Number,
 });
 
 const Hospital = mongoose.model('Hospital_login', userSchema);
