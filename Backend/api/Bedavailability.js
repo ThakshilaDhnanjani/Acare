@@ -8,22 +8,21 @@ const authenticate = require('../config/authenticate');
 
 
 // fetch details 
-router.post('/fetchBed', async (req, res) => {
+router.get('/fetchBed', async (req, res) => {
     try {
-      const { name } = req.body;
+      const { name } = req.query;  // Retrieve name from query parameters
       const user = await Hospital.findOne({ username: name });
   
       if (!user) {
-        return res.status(404).json({ error: 'hos not found' });
+        return res.status(404).json({ error: 'Hospital not found' });
       }
       res.status(200).json(user);
     } catch (error) {
       console.error(error);
-      res.status(500).json({ error: 'server error' });
+      res.status(500).json({ error: 'Server error' });
     }
   });
   
-
 
  router.post('/fetchDetails/:id', async (req, res) => {
     try {

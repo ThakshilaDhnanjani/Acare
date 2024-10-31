@@ -84,55 +84,56 @@ router.post('/signup', async (req, res) => {
 
 // Signin Route
 router.post('/signin', async (req, res) => {
-  const { username, password } = req.body;
-
-  if (!username || !password) {
+    const { username, password } = req.body;
+  
+    if (!username || !password) {
       return res.json({
-          status: 'FAILED',
-          message: 'All fields are required!'
+        status: 'FAILED',
+        message: 'All fields are required!'
       });
-  }
-
-  try {
+    }
+  
+    try {
       const user = await Hospital.findOne({ username });
       if (!user) {
-          return res.json({
-              status: 'FAILED',
-              message: 'Hospital not found!'
-          });
+        return res.json({
+          status: 'FAILED',
+          message: 'Hospital not found!'
+        });
       }
-
+  
       const match = await bcrypt.compare(password, user.password);
       if (match) {
-          const payload = { user: { id: user.id, hospitalId: user.hospitalId, username: user.username } }; // Include hospitalId and username
-          jwt.sign(payload, secretKey, { expiresIn: '24h'}, (err, token) => { // Set token expiration to 1 day
-              if (err) throw err;
-              res.json({
-                  status: "SUCCESS",
-                  message: "Signin successful!",
-                  token,
-                  beds: user.beds,
-                  username: user.username,
-                  ventilators: user.ventilators,
-                  theaters: user.theaters,
-                  oxygen: user.oxygen,
-                  
-              });
-          });
-      } else {
+        const payload = { user: { id: user.id, hospitalId: user.hospitalId, username: user.username } }; // Include hospitalId and username
+  
+        jwt.sign(payload, secretKey, { expiresIn: '24h' }, (err, token) => { // Set token expiration to 1 day
+          if (err) throw err;
           res.json({
-              status: 'FAILED',
-              message: 'Invalid password!'
+            status: "SUCCESS",
+            message: "Signin successful!",
+            token,
+            beds: user.beds,
+            ventilators: user.ventilators,
+            theaters: user.theaters,
+            oxygen: user.oxygen,
+            username: user.username,       // Include username in response
+            hospitalId: user.hospitalId    // Include hospitalId in response
           });
-      }
-  } catch (err) {
-      res.json({
+        });
+      } else {
+        res.json({
           status: 'FAILED',
-          message: 'An error occurred during signin!',
-          error: err.message,
+          message: 'Invalid password!'
+        });
+      }
+    } catch (err) {
+      res.json({
+        status: 'FAILED',
+        message: 'An error occurred during signin!',
+        error: err.message,
       });
-  }
-});
-
+    }
+  });
+  
 
 module.exports = router;
