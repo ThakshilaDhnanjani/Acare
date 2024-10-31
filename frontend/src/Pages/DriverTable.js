@@ -107,8 +107,9 @@ const DriverTable = () => {
   }, []);
 
   return (
+
     <div className="driver-table-container">
-      <Navbar />
+      <div><Navbar /></div>
       <h2>All Drivers</h2>
       <table className="driver-table">
         <thead>
