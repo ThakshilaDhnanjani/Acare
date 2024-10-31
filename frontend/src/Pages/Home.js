@@ -4,30 +4,50 @@ import axios from 'axios';
 import './Home.css';
 import Navbar from '../components/Navbar';
 import logo from '../Assets/logo.png';
+import PieChart from '../components/Blood_Count';
 
 function Home() {
   const location = useLocation();
-  
-  // Extract data passed via `state` from the previous page
-  const { beds = 0, username = '' ,ventilators = 0, theaters = 0, oxygen =0} = location.state || {}; // Default values
 
-  // Initialize state variables with default values
-  const [bed, setBed] = useState(beds);
+  // Initialize variables with values from localStorage
+  const [bed, setBed] = useState(0);
   const [message, setMessage] = useState('');
-  const [oxygenCapacity, setOxygen] = useState(oxygen);
-  const [ventilator, setVentilators] = useState(ventilators);
-  const [theater, setTheater] = useState(theaters);
-  const [hospitalName] = useState(username);
+  const [oxygenCapacity, setOxygen] = useState(0);
+  const [ventilator, setVentilators] = useState(0);
+  const [theater, setTheater] = useState(0);
+  const [hospitalName] = useState(localStorage.getItem('username')); // Username from localStorage
+  const hospitalId = localStorage.getItem('hospitalId'); // hospitalId from localStorage
 
-  // Function to update bed count in the backend
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const response = await axios.get(`http://localhost:5000/api/Bedavailability/fetchBed?name=${hospitalName}`);
+        
+        if (response) {
+          const data = response.data; 
+          setBed(data.beds); 
+          setVentilators(data.ventilators);
+          setOxygen(data.oxygen);
+          setTheater(data.theaters);
+        } else {
+          console.error('Error fetching data');
+        }
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    };
+  
+    fetchUserData(); 
+  }, [hospitalName]);
+
+  // Update bed count in the backend
   const updateBeds = async () => {
     try {
       const token = localStorage.getItem('token');
       const response = await axios.put('http://localhost:5000/api/Bedavailability/updatebeds',
         {
-          username: username,
+          username: hospitalName,
           beds: bed,
-
         },
         {
           headers: { Authorization: `Bearer ${token}` }
@@ -42,13 +62,13 @@ function Home() {
     }
   };
 
-  // Function to update oxygen capacity in the backend
+  // Update oxygen capacity in the backend
   const updateOxygen = async () => {
     try {
       const token = localStorage.getItem('token');
       const response = await axios.put('http://localhost:5000/api/Bedavailability/updateoxygen',
         {
-          username: username,
+          username: hospitalName,
           oxygen: oxygenCapacity
         },
         {
@@ -64,13 +84,13 @@ function Home() {
     }
   };
 
-  // Function to update theater count in the backend
+  // Update theater count in the backend
   const updateTheater = async () => {
     try {
       const token = localStorage.getItem('token');
       const response = await axios.put('http://localhost:5000/api/Bedavailability/updatetheaters',
         {
-          username: username,
+          username: hospitalName,
           theaters: theater
         },
         {
@@ -86,13 +106,13 @@ function Home() {
     }
   };
 
-  // Function to update ventilators in the backend
+  // Update ventilators in the backend
   const updateVentilators = async () => {
     try {
       const token = localStorage.getItem('token');
       const response = await axios.put('http://localhost:5000/api/Bedavailability/updateventilators',
         {
-          username: username,
+          username: hospitalName,
           ventilators: ventilator
         },
         {
@@ -108,7 +128,7 @@ function Home() {
     }
   };
 
-  // Check token on mount
+  // Check token on mount and redirect if missing
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (!token) {
@@ -166,10 +186,9 @@ function Home() {
             </div>
           </div>
 
-          <div className='available-beds'>
-            <h2>Available Beds</h2>
-            <div className="bed-controls">
-              {/* Bed count input */}
+          <div className='boxes-container'>
+            <div className='box'>
+              <h2>Available Beds</h2>
               <input
                 type="number"
                 value={bed}
@@ -177,13 +196,13 @@ function Home() {
                 placeholder="Enter Bed Count"
                 className="bed-input"
               />
+              <button id="submit-button" onClick={updateBeds}>Update</button>
             </div>
-            <button id="submit-button" onClick={updateBeds}>Update</button>
-            
+            <div className='box'>
+              <PieChart />
+            </div>
           </div>
-          
         </div>
-        
       </div>
     </div>
   );
