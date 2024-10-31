@@ -130,7 +130,7 @@ function SignupPage() {
 
         {errorMessage && <p className='error-message'>{errorMessage}</p>}
         <div className='login-link'>
-          <p>Already have an account? <a href='./LoginPage'>Login</a></p>
+          <p>Already have an account? <a href='/'>Login</a></p>
         </div>
       </div>
     </div>

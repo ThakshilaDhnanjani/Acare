@@ -47,7 +47,7 @@ export default function List() {
   };
 
   const handleViewMore = (hospitalName) => {
-    navigate(`/Detail/${hospitalName}`);  // Navigate to detail page with hospital name
+    navigate(`/Detail/${hospitalName}`);
   };
 
   return (
@@ -60,7 +60,7 @@ export default function List() {
             <div className="icu-header">
               <h3>{icu.availableBeds}</h3>
               
-              <button className="view-more-button"  onClick={() => handleViewMore(icu)}
+              <button className="view-more-button"  onClick={() => handleViewMore(icu.name)}
               >View More Info</button>
 
             </div>

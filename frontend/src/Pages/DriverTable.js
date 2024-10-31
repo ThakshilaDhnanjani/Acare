@@ -79,7 +79,7 @@ export default DriverTable;
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./DriverTable.css";
-import { jwtDecode } from "jwt-decode";
+//import jwtDecode from "jwt-decode";
 import Navbar from '../components/Navbar';
 
 const DriverTable = () => {
