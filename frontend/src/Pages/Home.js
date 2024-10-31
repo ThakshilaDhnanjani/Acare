@@ -5,6 +5,9 @@ import './Home.css';
 import Navbar from '../components/Navbar';
 import logo from '../Assets/logo.png';
 import PieChart from '../components/Blood_Count';
+import { Bed } from 'lucide-react';
+
+
 
 function Home() {
   const location = useLocation();
@@ -188,7 +191,7 @@ function Home() {
 
           <div className='boxes-container'>
             <div className='box'>
-              <h2>Available Beds</h2>
+              <div className="bed-title"><Bed className='bed'/> Available beds</div>
               <input
                 type="number"
                 value={bed}
@@ -198,6 +201,7 @@ function Home() {
               />
               <button id="submit-button" onClick={updateBeds}>Update</button>
             </div>
+
             <div className='box'>
               <PieChart />
             </div>

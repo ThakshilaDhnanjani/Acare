@@ -35,9 +35,10 @@ const DriverTable = () => {
   }, []);
 
   return (
+
     <div className="driver-table-container">
-      <Navbar />
-      <h2>Drivers in {localStorage.getItem("username")} Hospital </h2>
+      <div><Navbar /></div>
+      <h2>All Drivers</h2>
       <table className="driver-table">
         <thead>
           <tr>

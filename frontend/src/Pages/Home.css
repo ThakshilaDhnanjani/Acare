@@ -28,7 +28,6 @@
 }
 
 
-
 .logo {
   width: 250px;
   height: 250px;
@@ -138,6 +137,13 @@
   transform: scale(1.05);
 }
 
+.bed-icon{
+  display: flex;
+  margin-left: 150px;
+  margin-top: 20px;
+  color: darkblue;
+}
+
 .available-beds {
   background-color: white;
   border-radius: 15px;
@@ -196,22 +202,34 @@
 }
 
 #submit-button {
-  background-color: var(--accent-color);
+  background-color: darkblue;
   color: white;
   border: none;
   padding: 15px 25px;
-  border-radius: 8px;
+  border-radius: 25px;
   cursor: pointer;
   transition: background-color 0.3s, transform 0.2s;
-  width: 100%;
+  width: 95%;
   font-size: 18px;
   font-weight: bold;
 }
 
 #submit-button:hover {
-  background-color: #2980b9;
+  background-color: green;
   transform: scale(1.05);
 }
+
+.bed {
+  color:var(--primary-color);
+}
+
+.bed-title {
+  color: var(--primary-color);
+  font-size: 30px;
+  font-weight: 600;
+  padding: 10px;
+}
+
 
 @media (max-width: 768px) {
   .home {
