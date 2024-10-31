@@ -32,7 +32,7 @@ function Home() {
           const data = response.data; 
           setBed(data.beds); 
           setVentilators(data.ventilators)
-          setOxygenCapacity(data.oxygen)
+          setOxygen(data.oxygen)
           setTheater(data.theaters)
         } else {
           console.error('error fetch');

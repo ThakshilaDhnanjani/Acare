@@ -29,6 +29,18 @@ router.post('/signup', async (req, res) => {
             status: 'FAILED',
             message: 'Password is too short!'
         });
+    } else if (contact.length < 10) {
+        return res.json({
+            status: 'FAILED',
+            message: 'Invalid contact number! Please enter a valid contact number.'
+        });
+    } else if (beds < 0) {
+        return res.json({
+            status: 'FAILED',
+            message: 'Invalid number of beds entered!'
+        });
+    
+
     }
 
     try {
