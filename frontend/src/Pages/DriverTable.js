@@ -38,7 +38,7 @@ const DriverTable = () => {
 
     <div className="driver-table-container">
       <div><Navbar /></div>
-      <h2>All Drivers</h2>
+      <h2>Drivers in {localStorage.getItem("username")} Hospital</h2>
       <table className="driver-table">
         <thead>
           <tr>

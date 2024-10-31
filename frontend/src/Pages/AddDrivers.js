@@ -161,16 +161,7 @@ const AddDrivers = () => {
                                 required
                             />
                         </div>
-                        <div className="form-group">
-                            <label htmlFor="hospitalId">Hospital ID</label>
-                            <input
-                                type="text"
-                                id="hospitalId"
-                                value={hospitalId}
-                                onChange={(e) => setHospitalId(e.target.value)}
-                                required
-                            />
-                        </div>
+                        
                         <div className="form-group">
                             <label htmlFor="contact_no">Contact Number</label>
                             <input
