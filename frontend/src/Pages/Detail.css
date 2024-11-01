@@ -1,25 +1,140 @@
-/* .icu-details-form {
+.dashboard-container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f0f7ff 0%, #e6f0ff 100%);
+  padding: 2rem;
+}
+
+.dashboard-content {
+  max-width: 1200px;
+
+/* Dashboard Header */
+.dashboard-header {
+  margin-bottom: 2rem;
+}
+
+.dashboard-title {
+  font-size: 5rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin-bottom: 0.5rem;
+}
+
+.dashboard-subtitle {
+  color: #666;
+  font-size: 2rem;
+}
+
+/* Stats Grid */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .stats-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* Stat Card */
+.stat-card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+}
+
+.stat-card-content {
+  padding: 1.5rem;
+}
+
+.stat-card-inner {
   display: flex;
-  flex-direction: column;
-  width: 400px;
-  margin: 0 auto;
+  align-items: center;
+  gap: 1rem;
 }
 
-.form-group {
-  margin-bottom: 15px;
+/* Icon Container */
+.icon-container {
+  padding: 0.75rem;
+  border-radius: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.form-group label {
-  margin-bottom: 5px;
-  font-weight: bold;
+.stat-icon {
+  width: 4rem;
+  height: 4rem;
+  color: white;
 }
 
-.form-group input {
-  width: 100%;
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+/* Stat Info */
+.stat-info {
+  flex: 1;
 }
+
+.stat-label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #666;
+  margin-bottom: 0.25rem;
+  margin: 0;
+}
+
+.stat-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0;
+}
+
+/* Background Colors */
+.bg-blue {
+  background-color: #3b82f6;
+}
+
+.bg-green {
+  background-color: #10b981;
+}
+
+.bg-purple {
+  background-color: #8b5cf6;
+}
+
+.bg-orange {
+  background-color: #f59e0b;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.stat-card {
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
+/* Custom Scrollbar */
 
 .header {
   margin-bottom: 20px;
@@ -153,6 +268,11 @@ body {
 }
 
 ::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #3b82f6;
   background: var(--light-blue);
 }
 
@@ -162,12 +282,14 @@ body {
 }
 
 ::-webkit-scrollbar-thumb:hover {
+  background: #2563eb;
+
   background: var(--dark-blue);
 }
-
 /* Add subtle hover effect to form */
 .icu-details-form:hover {
   transform: translateY(-2px);
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
   transition: all 0.3s ease;
+
 }

@@ -7,6 +7,7 @@ import Checkbox from '@mui/material/Checkbox';
 import { PieChart } from '@mui/x-charts/PieChart';
 import { mobileAndDesktopOS, valueFormatter } from './webUsageStats';
 
+
 export default function PieAnimation() {
   const [radius, setRadius] = React.useState(50);
   const [itemNb, setItemNb] = React.useState(5);
@@ -28,7 +29,8 @@ export default function PieAnimation() {
   return (
     <Box sx={{ width: '100%' }}>
       <PieChart
-        height={250}
+        height={230}
+
         series={[
           {
             data: mobileAndDesktopOS.slice(0, itemNb),
@@ -41,7 +43,6 @@ export default function PieAnimation() {
         skipAnimation={skipAnimation}
       />
         <Typography id="radius-slider" gutterBottom />
-            Blood Count
     </Box>
   );
 }
