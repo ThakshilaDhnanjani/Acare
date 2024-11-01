@@ -21,6 +21,7 @@
   margin-left: 20px;
   border-radius: 20px;
   background-color: #060025;
+
   padding: 30px;
   box-shadow: var(--box-shadow);
   transition: all 0.3s ease;
@@ -82,7 +83,6 @@
   gap: 30px;
   margin-bottom: 30px;
 
-
 }
 
 .box {
@@ -92,6 +92,7 @@
   box-shadow: var(--box-shadow);
   transition: transform 0.3s ease;
   height:270px;
+
 }
 
 
@@ -172,6 +173,25 @@
   text-align: center;
   color: white;
   background: linear-gradient(120deg, #3666ad, #65b5ff)
+
+.available-beds {
+  background-color: white;
+  border-radius: 15px;
+  padding: 30px;
+  box-shadow: var(--box-shadow);
+  max-width: flex;
+  margin: 0 auto;
+  margin-right: 500px;
+}
+
+.available-beds input {
+  height: 50px;
+  width: 90%;
+  padding: 10px;
+  border-radius: 10px;
+  font-size: 60px;
+  text-align: center;
+
 }
 
 .available-beds h2 {

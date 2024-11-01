@@ -6,7 +6,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import { PieChart } from '@mui/x-charts/PieChart';
 import { mobileAndDesktopOS, valueFormatter } from './webUsageStats';
-import './Blood_Count.css';
+
 
 export default function PieAnimation() {
   const [radius, setRadius] = React.useState(50);
@@ -30,6 +30,7 @@ export default function PieAnimation() {
     <Box sx={{ width: '100%' }}>
       <PieChart
         height={230}
+
         series={[
           {
             data: mobileAndDesktopOS.slice(0, itemNb),

@@ -124,6 +124,7 @@ const AddDrivers = () => {
     const [isSuccess, setIsSuccess] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
 
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         setIsLoading(true);
@@ -150,6 +151,10 @@ const AddDrivers = () => {
             setMessage('An error occurred. Please try again.');
         } finally {
             setIsLoading(false);
+
+        } catch (error) {
+            console.error('Error during adding:', error);
+            setMessage('An error occurred. Please try again.');
         }
     };
 
@@ -242,6 +247,11 @@ const AddDrivers = () => {
                                 <>Register Driver</>
                             )}
                         </button>
+
+                        <button type="submit" className="submit-button">Add Driver</button>
+                        
+                        {message && <p>{message}</p>}
+
                     </form>
 
                     {message && (
