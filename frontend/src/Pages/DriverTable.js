@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./DriverTable.css";
 import Navbar from '../components/Navbar';
+import { FaUser } from 'react-icons/fa';
 
 const DriverTable = () => {
   const [drivers, setDrivers] = useState([]);
@@ -35,13 +36,14 @@ const DriverTable = () => {
   }, []);
 
   return (
-
+    <>
+      <Navbar />
     <div className="driver-table-container">
-      <div><Navbar /></div>
-      <h2>Drivers in {localStorage.getItem("username")} Hospital</h2>
+      <h2>All Drivers</h2>
       <table className="driver-table">
         <thead>
           <tr>
+            <th></th>
             <th>User ID</th>
             <th>Driver Name</th>
             <th>Contact No</th>
@@ -51,6 +53,7 @@ const DriverTable = () => {
           {drivers.length > 0 ? (
             drivers.map((driver) => (
               <tr key={driver._id}>
+                <td><FaUser/></td>
                 <td>{driver.userId || "N/A"}</td>
                 <td>{driver.driver_name}</td>
                 <td>{driver.contact_no}</td>
@@ -64,6 +67,7 @@ const DriverTable = () => {
         </tbody>
       </table>
     </div>
+    </>
   );
 };
 

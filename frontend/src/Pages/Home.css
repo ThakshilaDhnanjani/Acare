@@ -5,7 +5,7 @@
   --accent-color: #3498db;
   --text-color: #ecf0f1;
   --background-color: #f4f4f4;
-  --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --box-shadow: 0 4px 6px rgba(8, 1, 112, 0.3);
 }
 
 
@@ -16,29 +16,31 @@
 
 .sidebar {
   width: 300px;
-  height:550px;
-  margin-top: 20px;
+  height:580px;
+  margin-top: 5px;
   margin-left: 20px;
   border-radius: 20px;
-  background-color: #779cc1;
+  background-color: #060025;
   padding: 30px;
   box-shadow: var(--box-shadow);
   transition: all 0.3s ease;
+  border-transition:var(--accent-color) 0.3
   
 }
 
 
 .logo {
-  width: 250px;
-  height: 250px;
+  width: 300px;
+  height: 280px;
   transition: transform 0.3s ease;
 }
 
 .hospitalname{
   color: var(--text-color);
-  font-size: 30px;
+  font-size: 40px;
   font-weight: bold;
   margin-bottom: 20px;
+  font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif
 }
 
 .sidebar ul {
@@ -56,9 +58,9 @@
   font-size: 18px;
   transition: all 0.3s ease;
   display: block;
-  padding: 15px;
+  padding: 19px;
   border-radius: 8px;
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: rgba(10, 0, 66, 0.1);
 }
 
 .sidebar a:hover {
@@ -81,15 +83,16 @@
   gap: 30px;
   margin-bottom: 30px;
 
+
 }
 
 .box {
-  background-color: white;
+  background: rgba(9, 135, 202, 0.1);
   border-radius: 15px;
   padding: 15px;
   box-shadow: var(--box-shadow);
   transition: transform 0.3s ease;
-  height:260px;
+  height:270px;
 }
 
 
@@ -101,6 +104,22 @@
   color: var(--primary-color);
   margin-bottom: 20px;
   font-size: 24px;
+}
+
+.box-chart {
+  margin-bottom: -10px;
+}
+
+.box-chart{
+  background: rgba(9, 135, 202, 0.1);
+  color: var(--primary-color);
+  border-radius: 15px;
+  font-size: 24px;
+  font-weight: bold;
+  padding: 15px;
+  box-shadow: var(--box-shadow);
+  transition: transform 0.3s ease;
+  height:270px;
 }
 
 .box input {
@@ -125,11 +144,12 @@
   color: white;
   border: none;
   padding: 12px 20px;
-  border-radius: 20px;
+  border-radius: 10px;
   cursor: pointer;
   transition: background-color 0.3s, transform 0.2s;
   font-size: 16px;
-  width: 100%;
+  width: 80%;
+  font-weight: bold;
 }
 
 .box button:hover {
@@ -144,23 +164,15 @@
   color: darkblue;
 }
 
-.available-beds {
-  background-color: white;
-  border-radius: 15px;
-  padding: 30px;
-  box-shadow: var(--box-shadow);
-  max-width: flex;
-  margin: 0 auto;
-  margin-right: 500px;
-}
-
-.available-beds input {
-  height: 50px;
-  width: 90%;
+.box input {
+  height: 80px;
+  width: 70%;
   padding: 10px;
   border-radius: 10px;
-  font-size: 60px;
+  font-size: 100px;
   text-align: center;
+  color: white;
+  background: linear-gradient(120deg, #3666ad, #65b5ff)
 }
 
 .available-beds h2 {
@@ -206,10 +218,10 @@
   color: white;
   border: none;
   padding: 15px 25px;
-  border-radius: 25px;
+  border-radius: 10px;
   cursor: pointer;
   transition: background-color 0.3s, transform 0.2s;
-  width: 95%;
+  width: 80%;
   font-size: 18px;
   font-weight: bold;
 }
@@ -228,6 +240,19 @@
   font-size: 30px;
   font-weight: 600;
   padding: 10px;
+}
+
+.box-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+
+.box-header-icon {
+  width: 40px;
+  height: 40px;
+  color: var(--primary-color);
 }
 
 
@@ -249,4 +274,6 @@
     
 
   }
+
+  
 }
