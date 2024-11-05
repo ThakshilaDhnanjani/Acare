@@ -1,27 +1,3 @@
-// const mongoose = require('mongoose');
-// const Schema = mongoose.Schema;
-
-// const driverSchema = new Schema({
-//     userId: {
-//         type : String,
-//         required: true,
-//     },
-//     driver_name: {
-//         type : String,
-//         required: true
-//     },
-//     hospitalId : {
-//         type : String,
-//         required: true
-//     },
-//     contact_no : {
-//         type : Number,
-//         required: true
-//     }
-// });
-
-// const Driver = mongoose.model('Driver', driverSchema);
-// module.exports = Driver;
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 
@@ -75,6 +51,26 @@ const driverSchema = new mongoose.Schema({
   createdAt: {
     type: Date,
     default: Date.now
+  },
+  assignedAmbulance: {
+    type: String,
+    default: null, // Stores the assigned ambulance ID
+    trim: true
+  },
+  isAvailable: {
+    type: Boolean,
+    default: true // Indicates if the driver is available
+  },
+  destinations: [
+    {
+      hospitalName: { type: String, trim: true },
+      latitude: { type: Number },
+      longitude: { type: Number }
+    }
+  ],
+  currentLocation: {
+    latitude: { type: Number, default: null },
+    longitude: { type: Number, default: null }
   }
 });
 

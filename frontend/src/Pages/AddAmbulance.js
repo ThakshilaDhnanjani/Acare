@@ -38,10 +38,9 @@ const AddAmbulance = () => {
             // Show error alert
             Swal.fire({
                 icon: 'error',
-                title: 'Error',
-                text: 'Error adding ambulance. Please try again.',
-                timer: 3000,
-                showConfirmButton: false,
+                title: 'Error adding ambulance !',
+                text: ' Please try again.',
+                showConfirmButton: true,
             });
             console.error('Error during adding:', error);
         } finally {
@@ -67,8 +66,7 @@ const AddAmbulance = () => {
                     <div className="header-icon">
                         <Ambulance size={40} />
                     </div>
-                    <h2>Add New Ambulance</h2>
-                    <p>Register a new ambulance to your emergency response fleet</p>
+                    <div className='title1'>Add New Ambulance</div>
                 </div>
 
                 {/* Form */}

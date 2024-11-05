@@ -1,38 +1,32 @@
 const router = require("express").Router();
 let Driver = require("../models/Driver");
+let Ambulance = require("../models/Ambulance"); // Import the Ambulance model
+let Notification = require("../models/Notification"); // Import the Notification model
 
 // Add Driver
-router.route("/add").post(async (req, res) => {
-    const userId = req.body.userId;
-    const driver_name = req.body.driver_name;
-    const hospitalId = req.body.hospitalId;
-    const contact_no = Number(req.body.contact_no);
-
-    const newDriver = new Driver({
+// Route to add a new driver with default availability
+router.post('/add', async (req, res) => {
+    try {
+      const { userId, driver_name, hospitalId, contact_no } = req.body;
+  
+      // Create new driver with isAvailable set to true by default
+      const newDriver = new Driver({
         userId,
         driver_name,
         hospitalId,
         contact_no,
-    });
-
-    // Check if the user ID already exists
-    const existingDriver = await Driver.findOne({ userId });
-    if (existingDriver) {
-        return res.status(400).json({
-            message: "Driver with this User ID already exists",
-        });
+        isAvailable: true, // Set to available by default
+      });
+  
+      await newDriver.save();
+      res.status(201).json({ message: 'Driver added successfully!' });
+    } catch (error) {
+      console.error('Error adding driver:', error);
+      res.status(500).json({ message: 'Server error: could not add driver.' });
     }
+  });
+  
 
-    newDriver
-        .save()
-        .then(() => {
-            res.json("Driver Added");
-        })
-        .catch((err) => {
-            console.log(err);
-        });
-});
-/*
 // Get All Drivers
 
 router.route("/").get((req, res) => {
@@ -41,7 +35,7 @@ router.route("/").get((req, res) => {
         .catch((err) => {
             console.log(err);
         });
-});*/
+});
 
 router.get("/", async (req, res) => {
     const { hospitalId } = req.query; // Get hospitalId from query params
@@ -55,6 +49,71 @@ router.get("/", async (req, res) => {
         res.status(500).json({ message: "Error fetching drivers" });
     }
 });
+
+// Route to get available drivers
+router.get('/drivers', async (req, res) => {
+    try {
+      // Find drivers who are available
+      const drivers = await Driver.find({ isAvailable: true });
+      res.json(drivers);
+    } catch (error) {
+      console.error('Error fetching drivers:', error);
+      res.status(500).json({ message: 'Server error' });
+    }
+  });
+
+
+
+// Route to assign a job to a driver and create a notification
+router.post('/assign-job', async (req, res) => {
+    const { driverId, ambulanceId, destination, destinationLatitude, destinationLongitude } = req.body;
+  
+    if (!driverId || !ambulanceId || !destination || !destinationLatitude || !destinationLongitude) {
+      return res.status(400).json({ message: 'All fields are required' });
+    }
+  
+    try {
+      // Find the driver to get their userId
+      const driver = await Driver.findById(driverId);
+      if (!driver) {
+        return res.status(404).json({ message: 'Driver not found' });
+      }
+
+      // Update the driver with assigned ambulance, mark as unavailable, and add destination
+      await Driver.findByIdAndUpdate(driverId, {
+        assignedAmbulance: ambulanceId,
+        isAvailable: false,
+        $push: {
+          destinations: {
+            hospitalName: destination,
+            latitude: destinationLatitude,
+            longitude: destinationLongitude,
+          }
+        }
+      });
+
+      // Mark the ambulance as unavailable
+      await Ambulance.findByIdAndUpdate(ambulanceId, { isAvailable: false });
+
+      // Create a notification for this job assignment with driver userId
+      const notificationMessage = `Driver ${driver.userId} has been assigned to a new job at ${destination}.`;
+      const newNotification = new Notification({
+        message: notificationMessage,
+        driverId: driver.userId, // Save driverId as userId like "21IT0495"
+        read: false // Default to unread
+      });
+
+      await newNotification.save();
+
+      res.status(200).json({ message: 'Driver assigned to job and notification created successfully' });
+    } catch (error) {
+      console.error('Error assigning driver to job and creating notification:', error);
+      res.status(500).json({ message: 'Server error' });
+    }
+});
+
+
+
 
 //update Driver
 

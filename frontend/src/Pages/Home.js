@@ -110,7 +110,7 @@ function Home() {
         icon: response.data.status === "SUCCESS" ? "success" : "error",
         title:
           response.data.status === "SUCCESS"
-            ? "Oxygen capacity updated successfully!"
+            ? "CRRT Availability updated successfully!"
             : "Failed to update oxygen capacity!",
         showConfirmButton: false,
         timer: 1500,
@@ -229,13 +229,13 @@ function Home() {
             <div className="box">
               <div className="box-header">
                 <MdOutlineAir className="box-header-icon" />
-                <h2>Available Oxygen</h2>
+                <h2>Available CRRT</h2>
               </div>
               <input
                 type="number"
                 value={oxygenCapacity}
                 onChange={(e) => setOxygen(Number(e.target.value))}
-                placeholder="Enter Oxygen Capacity"
+                placeholder="Enter available CRRT"
                 style={{ textAlign: "center" }}
               />
               <button onClick={updateOxygen}>Update</button>

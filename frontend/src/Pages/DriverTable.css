@@ -1,179 +1,119 @@
-/* .driver-table-container {
-    margin: 20px;
-    padding: 20px;
-    background-color: #f8f9fa; /* Adjust to your theme *
-    border-radius: 8px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-  }
-  
-  .driver-table-container h2 {
-    color: #333; /* Adjust according to theme *
-    text-align: center;
-    margin-bottom: 20px;
-  }
-  
-  .driver-table {
-    width: 100%;
-    border-collapse: collapse;
-    background-color: #ffffff; /* Adjust to your theme *
-  }
-  
-  .driver-table th, .driver-table td {
-    padding: 12px;
-    text-align: left;
-    border-bottom: 1px solid #ddd;
-  }
-  
-  .driver-table th {
-    background-color: #007bff; /* Adjust for header color *
-    color: white;
-    font-weight: bold;
-  }
-  
-  .driver-table tr:nth-child(even) {
-    background-color: #f2f2f2; /* Alternate row color *
-  }
-  
-  .driver-table tr:hover {
-    background-color: #ddd; /* Row hover color *
-  }
-  
-  .driver-table td {
-    color: #333; /* Adjust font color as needed *
-  }
-   */
-
-
-/* Container Styles */
 .driver-table-container {
-  margin: 1.25rem;
-  padding: 1.5rem;
-  background: linear-gradient(to right bottom, #ffffff, #f8f9fa);
-  border-radius: 1rem;
-  box-shadow: 
-    0 4px 6px -1px rgba(0, 0, 0, 0.1),
-    0 2px 4px -1px rgba(0, 0, 0, 0.06);
-  overflow-x: auto; /* Enables horizontal scrolling on small screens */
+  padding: 2rem;
+  background-color: #f8f9fa;
+  min-height: 100vh;
 }
 
-/* Title Styles */
-.driver-table-container h2 {
-  color: #2d3748;
-  font-size: 1.5rem;
+.driver-table-container h2{
+  font-size: 40px;
+  color:#4361ee;
+}
+
+.content-wrapper {
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  padding: 2rem;
+  margin-top: 2rem;
+}
+
+.table-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid #f0f0f0;
+}
+
+.header-title {
+  font-size: 1.75rem;
   font-weight: 600;
-  text-align: center;
-  margin-bottom: 1.5rem;
-  padding-bottom: 0.75rem;
-  border-bottom: 2px solid #e2e8f0;
-
+  color: #2c3e50;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
 }
 
-/* Table Base Styles */
+.header-title svg {
+  color: #3498db;
+}
+
 .driver-table {
   width: 100%;
   border-collapse: separate;
   border-spacing: 0;
-  background-color: transparent;
-  font-size: 0.875rem;
+  margin-top: 1rem;
 }
 
-/* Header Styles */
 .driver-table th {
-  background: linear-gradient(to right, #3182ce, #2b6cb0);
-  color: white;
+  background-color: #f8f9fa;
+  color: #2c3e50;
   font-weight: 600;
   padding: 1rem;
   text-align: left;
+  border-bottom: 2px solid #e9ecef;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
-  position: sticky;
-  top: 0;
-  z-index: 10;
+  font-size: 0.85rem;
+  letter-spacing: 0.5px;
 }
 
-/* First and last header cells rounded corners */
-.driver-table th:first-child {
-  border-top-left-radius: 0.5rem;
-}
-
-.driver-table th:last-child {
-  border-top-right-radius: 0.5rem;
-}
-
-/* Cell Styles */
 .driver-table td {
   padding: 1rem;
   color: #4a5568;
-  background-color: white;
-  transition: all 0.2s ease;
-  font-size: 20px;
+  border-bottom: 1px solid #e9ecef;
+  transition: background-color 0.2s ease;
+}
+
+.driver-table tr:hover td {
+  background:lightcyan;
+}
+
+.empty-message {
   text-align: center;
-
+  padding: 3rem;
+  color: #6c757d;
+  font-size: 1.1rem;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  margin: 2rem 0;
 }
 
-/* Set a consistent row height */
-.driver-table th{
-  padding: 1rem;
-  color: #ffffff;
-  background-color: white;
-  transition: all 0.2s ease;
-  height: 2rem; /* Adjust this value as needed */
-  text-align: center;
-}
-
-.driver-table td {
-  color: #07024e;
-}
-
-/* Border Styles */
-.driver-table td {
-  border-bottom: 1px solid #e2e8f0;
-}
-
-/* Responsive Design */
-@media screen and (max-width: 768px) {
+/* Responsive styles */
+@media (max-width: 768px) {
   .driver-table-container {
-    margin: 0.75rem;
-    padding: 1rem;
-  }
-
-  .driver-table {
-    font-size: 0.8125rem;
-  }
-
-  .driver-table th,
-  .driver-table td {
-    padding: 0.75rem;
+      padding: 1rem;
   }
   
-  /* Optional: Stack the table on very small screens */
-  @media screen and (max-width: 480px) {
-    .driver-table th {
-      font-size: 0.75rem;
-    }
-    
-    .driver-table td {
-      font-size: 0.8125rem;
-    }
+  .content-wrapper {
+      padding: 1rem;
+  }
+  
+  .driver-table {
+      display: block;
+      overflow-x: auto;
+  }
+  
+  .header-title {
+      font-size: 1.5rem;
   }
 }
 
-/* Smooth Scrollbar for Webkit Browsers */
-.driver-table-container::-webkit-scrollbar {
-  height: 8px;
-  width: 8px;
-}
-
-.driver-table-container::-webkit-scrollbar-track {
-  background: #f1f1f1;
+/* Loading state animation */
+.loading-skeleton {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: loading 1.5s infinite;
   border-radius: 4px;
+  height: 1rem;
+  margin: 0.5rem 0;
 }
 
-.driver-table-container::-webkit-scrollbar-thumb {
-  background: #cbd5e0;
-  border-radius: 4px;
-}
-
-.driver-table-container::-webkit-scrollbar-thumb:hover {
-  background: #a0aec0;
+@keyframes loading {
+  0% {
+      background-position: 200% 0;
+  }
+  100% {
+      background-position: -200% 0;
+  }
 }

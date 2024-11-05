@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import './Navbar.css';
-import { FaBell, FaCog, FaSignOutAlt, FaBars, FaTimes } from 'react-icons/fa';
+import { FaBell, FaCog, FaSignOutAlt, FaBars, FaTimes, FaEnvelope } from 'react-icons/fa';
 
 function Header() {
   const [isOpen, setIsOpen] = useState(false);
@@ -31,8 +31,8 @@ function Header() {
             </ul>
           </div>
           <div className='icons'>
+          <a href="/NotificationsPage"><FaEnvelope /></a>
             <a href="/emergency-alerts"><FaBell /></a>
-            <a href="/settings"><FaCog /></a>
             <a href="/"><FaSignOutAlt /></a>
           </div>
         </div>

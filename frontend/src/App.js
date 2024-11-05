@@ -12,7 +12,7 @@ import AddDrivers from './Pages/AddDrivers';
 import Detail from './Pages/Detail';
 import EmergencyAlertsPage from './Pages/EmergencyAlertsPage';
 import DriverTable from './Pages/DriverTable';
-
+import NotificationsPage from './Pages/Notification';
 
 
 function App() {
@@ -21,18 +21,19 @@ function App() {
         <div className="App">
       
       <Routes>
-         <Route path='/Home' element={<Home />} />
-         <Route path="/about" element={<About />} />
-         <Route path="/ICU List" element={<List />} />
-         <Route path="/Ambulance" element={<AmbulanceList />} />
-         <Route path='/' element={<LoginPage />} />
-         <Route path='/SignupPage' element={<SignupPage />} />
-         <Route path='/location' element={<LiveLocation />} />
-         <Route path='/AddAmbulance' element={<AddAmbulance />} />
-         <Route path='/AddDrivers' element={<AddDrivers />} />
-         <Route path="/Detail/:hospitalName" element={<Detail />} />
-         <Route path="/emergency-alerts" element={<EmergencyAlertsPage  />} />
-         <Route path="/DriverTable" element={<DriverTable />} />
+        <Route path='/Home' element={<Home />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/ICU List" element={<List />} />
+        <Route path="/Ambulance" element={<AmbulanceList />} />
+        <Route path='/' element={<LoginPage />} />
+        <Route path='/SignupPage' element={<SignupPage />} />
+        <Route path='/location' element={<LiveLocation />} />
+        <Route path='/AddAmbulance' element={<AddAmbulance />} />
+        <Route path='/AddDrivers' element={<AddDrivers />} />
+        <Route path="/Detail/:hospitalName" element={<Detail />} />
+        <Route path="/emergency-alerts" element={<EmergencyAlertsPage  />} />
+        <Route path="/DriverTable" element={<DriverTable />} />
+        <Route path="/NotificationsPage" element={<NotificationsPage />} />
          
       </Routes>
     </div>

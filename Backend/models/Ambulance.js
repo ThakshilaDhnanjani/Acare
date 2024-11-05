@@ -1,18 +1,10 @@
-const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
+const mongoose = require("mongoose");
 
-const ambulanceSchema = new Schema({
-    Ambulance_no: {
-        type : String,
-        required: true,
-    },
-    hospitalId: {
-        type : String,
-        required: true
-        
-    
-    }
+const AmbulanceSchema = new mongoose.Schema({
+  Ambulance_no: { type: String, required: true, unique: true },
+  hospitalId: { type: String, required: true },
+  isAvailable: { type: Boolean, default: true }, // Field to indicate if ambulance is available
+  // Add any other fields if necessary
 });
 
-const Ambulance = mongoose.model('Ambulance', ambulanceSchema);
-module.exports = Ambulance;
+module.exports = mongoose.model("Ambulance", AmbulanceSchema);

@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { 
   UserCircle2, 
@@ -9,6 +8,7 @@ import {
   AlertCircle 
 } from 'lucide-react';
 import axios from 'axios';
+import Swal from 'sweetalert2';
 import Navbar from '../components/Navbar';
 import './AddDrivers.css';
 
@@ -17,34 +17,45 @@ const AddDrivers = () => {
     const [driver_name, setDriver_name] = useState('');
     const [hospitalId, setHospitalId] = useState('');
     const [contact_no, setContact_no] = useState('');
-    const [message, setMessage] = useState('');
-    const [isSuccess, setIsSuccess] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         setIsLoading(true);
-        
+
         try {
-            const requestData = { userId, hospitalId, driver_name, contact_no };
+            // Set isAvailable to true by default for new drivers
+            const requestData = { 
+              userId, 
+              driver_name, 
+              hospitalId, 
+              contact_no, 
+              isAvailable: true 
+            };
             const response = await axios.post('http://localhost:5000/api/Driver/add', requestData);
-            
-            setIsSuccess(true);
-            setMessage('Driver added successfully!');
-            
+
+            // Show success alert
+            Swal.fire({
+                icon: 'success',
+                title: 'Driver added successfully!',
+                showConfirmButton: false,
+                timer: 2000,
+            });
+
             // Reset form
             setUserId('');
-            setHospitalId('');
             setDriver_name('');
+            setHospitalId('');
             setContact_no('');
             
-            setTimeout(() => {
-                setMessage('');
-                setIsSuccess(false);
-            }, 3000);
         } catch (error) {
-            setIsSuccess(false);
-            setMessage('An error occurred. Please try again.');
+            // Show error alert
+            Swal.fire({
+                icon: 'error',
+                title: 'Register Fail !',
+                text: 'Please try again.',
+                showConfirmButton: true,
+            });
         } finally {
             setIsLoading(false);
         }
@@ -65,8 +76,7 @@ const AddDrivers = () => {
                         <div className="header-icon">
                             <UserCircle2 size={40} />
                         </div>
-                        <h2>Driver Registration</h2>
-                        <p>Add a new driver to the system</p>
+                        <div className='title'>Driver Registration</div>
                     </div>
 
                     <form onSubmit={handleSubmit} className="registration-form">
@@ -78,7 +88,7 @@ const AddDrivers = () => {
                                         type="text"
                                         value={userId}
                                         onChange={(e) => setUserId(e.target.value)}
-                                        placeholder="Driver ID"
+                                        placeholder=""
                                         required
                                     />
                                     <label>Driver ID</label>
@@ -92,7 +102,7 @@ const AddDrivers = () => {
                                         type="text"
                                         value={driver_name}
                                         onChange={(e) => setDriver_name(e.target.value)}
-                                        placeholder="Driver Name"
+                                        placeholder=""
                                         required
                                     />
                                     <label>Driver Name</label>
@@ -106,7 +116,7 @@ const AddDrivers = () => {
                                         type="text"
                                         value={hospitalId}
                                         onChange={(e) => setHospitalId(e.target.value)}
-                                        placeholder="Hospital ID"
+                                        placeholder=""
                                         required
                                     />
                                     <label>Hospital ID</label>
@@ -120,7 +130,7 @@ const AddDrivers = () => {
                                         type="tel"
                                         value={contact_no}
                                         onChange={(e) => setContact_no(e.target.value)}
-                                        placeholder="Contact Number"
+                                        placeholder=""
                                         required
                                     />
                                     <label>Contact Number</label>
@@ -140,17 +150,6 @@ const AddDrivers = () => {
                             )}
                         </button>
                     </form>
-
-                    {message && (
-                        <div className={`notification ${isSuccess ? 'success' : 'error'}`}>
-                            {isSuccess ? (
-                                <CheckCircle2 size={20} />
-                            ) : (
-                                <AlertCircle size={20} />
-                            )}
-                            {message}
-                        </div>
-                    )}
                 </div>
             </div>
         </>

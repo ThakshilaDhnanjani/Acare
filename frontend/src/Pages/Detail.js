@@ -73,7 +73,7 @@ const Detail = () => {
           />
           <StatCard 
             icon={Wind}
-            label="Oxygen Capacity"
+            label="Available CRRT"
             value={oxygenCapacity}
             color="bg-green"
           />
