@@ -28,19 +28,6 @@ router.post("/add", async (req, res) => {
   }
 });
 
-
-
-// Get All Ambulances
-// router.get("/", async (req, res) => {
-//   try {
-//     const ambulances = await Ambulance.find();
-//     return res.status(200).json(ambulances);
-//   } catch (err) {
-//     console.error(err);
-//     return res.status(500).json({ message: "Error fetching ambulances", error: err.message });
-//   }
-// });
-
 // Route to get available ambulances for a specific hospital
 router.get('/ambulance', async (req, res) => {
   try {

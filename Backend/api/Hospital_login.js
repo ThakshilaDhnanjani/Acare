@@ -19,7 +19,7 @@ router.post('/signup', async (req, res) => {
             status: 'FAILED',
             message: 'Invalid username entered!'
         });
-    } else if (!/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email)) {
+    } else if (!/^[a-z]+@([\w-]+\.)+[\w-]{2,4}$/.test(email)) {
         return res.json({
             status: 'FAILED',
             message: 'Invalid email entered!'
